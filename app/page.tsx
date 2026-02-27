@@ -68,7 +68,8 @@ export default function Home() {
           <div className="flex flex-wrap gap-2 mt-4">
             {STACK.map(({ name, Icon, color }) => (
               <span key={name} className="flex items-center gap-2 font-display text-[10.5px] font-semibold tracking-[0.04em] px-3.5 py-1.5
-               rounded-full border border-black/10 text-[#000000] hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/3 transition-all duration-200 cursor-default group">
+               rounded-full border border-black/10 text-[#000000] hover:border-[#FF5C00] hover:text-[#FF5C00]
+                hover:bg-[#FF5C00]/3 transition-all duration-200 cursor-default group">
                 <Icon size={13} style={{ color }} className="group-hover:scale-110 transition-transform duration-200" />
                 {name}
               </span>
@@ -82,7 +83,8 @@ export default function Home() {
           <p className="font-body text-[13px] text-[#1a1a1a] leading-relaxed mt-1.5 mb-5">Design, Build & Ship for the Web.</p>
           <div className="flex flex-col gap-3.5">
             {WORK.map(({ title, tag, desc }) => (
-              <div key={title} className="bg-[#0D0C0A] border border-black/8 rounded-2xl p-5 hover:border-[#FF5C00] hover:-translate-y-px transition-all duration-200 cursor-pointer">
+              <div key={title} className="bg-[#0D0C0A] border border-black/8 rounded-2xl p-5 hover:border-[#FF5C00]
+               hover:-translate-y-px transition-all duration-200 cursor-pointer">
                 <div className="flex items-start justify-between mb-2">
                   <p className="font-display text-[14.5px] font-bold text-white">{title}</p>
                   <span className="font-display text-[9px] font-bold tracking-[0.08em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5 
@@ -112,7 +114,8 @@ export default function Home() {
             { href: META.linkedin, icon: <IconLinkedin />, label: "LinkedIn", target: true },
           ].map(({ href, icon, label, target }) => (
             <Link key={label} href={href} target={target ? "_blank" : undefined} rel={target ? "noopener noreferrer" : undefined}
-              className="flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full px-5 py-2.5 font-display text-[11px] font-bold tracking-[0.07em] 
+              className="flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full px-5 py-2.5
+               font-display text-[11px] font-bold tracking-[0.07em] 
               uppercase text-[#000000] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-all duration-200">
               {icon}{label}
             </Link>
@@ -125,7 +128,8 @@ export default function Home() {
           <div className="flex flex-wrap gap-2.5 mt-4">
             {STACK.map(({ name, Icon, color }) => (
               <span key={name} className="flex items-center gap-2 font-display text-[11px] font-semibold tracking-[0.04em] px-4 py-2
-               rounded-full border border-black/10 text-[#000000] hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/3 transition-all duration-200 cursor-default group">
+               rounded-full border border-black/10 text-[#000000] hover:border-[#FF5C00] hover:text-[#FF5C00] 
+               hover:bg-[#FF5C00]/3 transition-all duration-200 cursor-default group">
                 <Icon size={14} style={{ color }} className="group-hover:scale-110 transition-transform duration-200" />
                 {name}
               </span>
@@ -139,10 +143,12 @@ export default function Home() {
           <p className="font-body text-[13px] text-[#1a1a1a] leading-relaxed mt-1.5 mb-6">Design, Build & Ship for the Web.</p>
           <div className="grid grid-cols-2 gap-4">
             {WORK.map(({ title, tag, desc }) => (
-              <div key={title} className="bg-[#0D0C0A] border border-black/8 rounded-2xl p-6 hover:border-[#FF5C00] hover:-translate-y-px transition-all duration-200 cursor-pointer">
+              <div key={title} className="bg-[#0D0C0A] border border-black/8 rounded-2xl p-6 hover:border-[#FF5C00] hover:-translate-y-px 
+              transition-all duration-200 cursor-pointer">
                 <div className="flex items-start justify-between mb-2">
                   <p className="font-display text-[15px] font-bold text-white">{title}</p>
-                  <span className="font-display text-[9px] font-bold tracking-[0.08em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5 rounded-full shrink-0 ml-2">{tag}</span>
+                  <span className="font-display text-[9px] font-bold tracking-[0.08em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5
+                   rounded-full shrink-0 ml-2">{tag}</span>
                 </div>
                 <p className="font-body text-[13px] text-white/70 leading-relaxed">{desc}</p>
               </div>

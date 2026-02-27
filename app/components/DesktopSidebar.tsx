@@ -77,8 +77,8 @@ export default function DesktopSidebar() {
           </div>
         </div>
 
-        <p className="font-display text-[9px] font-bold tracking-widest uppercase text-[#C8C8C8]">
-          2025 © Talesdev
+        <p className="font-display text-[12px] font-bold tracking-widest uppercase text-[#0D0C0A]">
+          2026 ✦ Talesoftoba
         </p>
       </div>
     </aside>
