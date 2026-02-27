@@ -65,12 +65,12 @@ export const PROJECTS: { title: string; desc: string; tags: string[]; year: stri
     image:"/projects/ecomm.jpg",
   },
   {
-    title: "Emids Dashboard",
-    desc: "Healthcare analytics dashboard with real-time data visualization and reporting.",
-    tags: ["React", "D3.js", "Figma"],
-    year: "2023",
-    link: "#",
-    image:"",
+    title: "Bank Loan app",
+    desc: "Loan processing Bank app, built with secure user authentication and authorization",
+    tags: ["Next.js", "Tailwind", "TypeScript", "React"],
+    year: "2025",
+    link: "https://loan-app-bay.vercel.app",
+    image:"/projects/loan.jpg",
   },
   {
     title: "Freelance Projects",
