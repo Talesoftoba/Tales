@@ -28,12 +28,12 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
 
         {/* ── MOBILE ── */}
         <div
-          className="md:hidden relative z-10 w-[96vw] max-w-[520px] flex flex-col pt-4 pb-4"
+          className="md:hidden relative z-10 w-[96vw] max-w-130 flex flex-col pt-4 pb-4"
           style={{ height: "100dvh" }}
         >
-          <div className="flex-shrink-0 flex items-center justify-between px-1 pb-3">
-            <div className="w-11 h-11 rounded-xl overflow-hidden relative flex-shrink-0">
-              <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill className="object-cover" />
+          <div className="shrink-0 flex items-center justify-between px-1 pb-3">
+            <div className="w-11 h-11 rounded-xl overflow-hidden relative shrink-0">
+              <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill sizes="44px" className="object-cover" />
             </div>
             <ContactButton phone={META.phone} />
             <div className="text-right select-none pointer-events-none">
@@ -51,7 +51,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <div className="flex-shrink-0"><BottomNav /></div>
+          <div className="shrink-0"><BottomNav /></div>
         </div>
 
         {/* ── DESKTOP ── */}
@@ -76,7 +76,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* bottom nav inside card footer */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <BottomNav />
           </div>
         </div>

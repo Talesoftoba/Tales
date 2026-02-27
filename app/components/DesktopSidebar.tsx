@@ -18,14 +18,14 @@ export default function DesktopSidebar() {
 
   return (
     <aside
-      className="flex-shrink-0 flex flex-col justify-between border-r border-black/8 px-8 py-10"
+      className="shrink-0 flex flex-col justify-between border-r border-black/8 px-8 py-10"
       style={{ width: "280px" }}
     >
       <div>
         {/* avatar + contact button side by side */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-12 h-12 rounded-2xl overflow-hidden relative flex-shrink-0">
-            <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill className="object-cover" />
+          <div className="w-12 h-12 rounded-2xl overflow-hidden relative shrink-0">
+            <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill sizes="140px" className="object-cover" />
           </div>
           <ContactButton phone={META.phone} />
         </div>
@@ -39,7 +39,7 @@ export default function DesktopSidebar() {
         {/* availability badge */}
         <div className="flex items-center gap-2 mt-5 mb-8">
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="font-display text-[10px] font-bold tracking-[0.1em] uppercase text-green-600">
+          <span className="font-display text-[10px] font-bold tracking-widest uppercase text-green-600">
             Available for work
           </span>
         </div>
@@ -77,7 +77,7 @@ export default function DesktopSidebar() {
           </div>
         </div>
 
-        <p className="font-display text-[9px] font-bold tracking-[0.1em] uppercase text-[#C8C8C8]">
+        <p className="font-display text-[9px] font-bold tracking-widest uppercase text-[#C8C8C8]">
           2025 © Talesdev
         </p>
       </div>

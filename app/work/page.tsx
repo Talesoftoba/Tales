@@ -27,12 +27,13 @@ export default function Work() {
               <div className="p-5">
                 <div className="flex items-start justify-between mb-2">
                   <p className="font-display text-[14.5px] font-bold text-[#111111] group-hover:text-[#FF5C00] transition-colors duration-200">{title}</p>
-                  <span className="font-display text-[9px] font-bold uppercase text-[#9A9A9A] flex-shrink-0 ml-2">{year}</span>
+                  <span className="font-display text-[9px] font-bold uppercase text-[#9A9A9A] shrink-0 ml-2">{year}</span>
                 </div>
                 <p className="font-body text-[12.5px] text-[#9A9A9A] leading-relaxed mb-3">{desc}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {tags.map((tag) => (
-                    <span key={tag} className="font-display text-[9px] font-bold tracking-[0.06em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5 rounded-full">{tag}</span>
+                    <span key={tag} className="font-display text-[9px] font-bold tracking-[0.06em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5
+                     rounded-full">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -53,7 +54,8 @@ export default function Work() {
         <div className="grid grid-cols-2 gap-5">
           {PROJECTS.map(({ title, desc, tags, year, link, image }) => (
             <Link key={title} href={link} target="_blank" rel="noopener noreferrer"
-              className="group border border-black/8 rounded-2xl overflow-hidden hover:border-[#FF5C00] hover:-translate-y-1 transition-all duration-200 no-underline">
+              className="group border border-black/8 rounded-2xl overflow-hidden hover:border-[#FF5C00] hover:-translate-y-1 transition-all duration-200
+               no-underline">
               {image && (
                 <div className="relative w-full h-44 overflow-hidden">
                   <Image src={image} alt={title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -62,12 +64,13 @@ export default function Work() {
               <div className="p-5">
                 <div className="flex items-start justify-between mb-2">
                   <p className="font-display text-[14px] font-bold text-[#111111] group-hover:text-[#FF5C00] transition-colors duration-200">{title}</p>
-                  <span className="font-display text-[9px] font-bold uppercase text-[#9A9A9A] flex-shrink-0 ml-2">{year}</span>
+                  <span className="font-display text-[9px] font-bold uppercase text-[#9A9A9A] shrink-0 ml-2">{year}</span>
                 </div>
                 <p className="font-body text-[12.5px] text-[#9A9A9A] leading-relaxed mb-3">{desc}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {tags.map((tag) => (
-                    <span key={tag} className="font-display text-[9px] font-bold tracking-[0.06em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5 rounded-full">{tag}</span>
+                    <span key={tag} className="font-display text-[9px] font-bold tracking-[0.06em] uppercase text-[#FF5C00] bg-[#FF5C00]/8 px-2 py-0.5
+                     rounded-full">{tag}</span>
                   ))}
                 </div>
               </div>
