@@ -37,8 +37,8 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
             <ContactButton phone={META.phone} />
             <div className="text-right select-none pointer-events-none">
-              <p className="font-display text-[12px] font-extrabold tracking-[0.15em] uppercase text-[#111111]">Talesdev</p>
-              <p className="font-display text-[8px] font-bold tracking-[0.14em] uppercase text-[#9A9A9A]">Portfolio ✦ 2025</p>
+              <p className="font-display text-[12px] font-extrabold tracking-[0.15em] uppercase text-[#000000]">Talesdev</p>
+              <p className="font-display text-[8px] font-bold tracking-[0.14em] uppercase text-[#1a1a1a]">Portfolio ✦ 2025</p>
             </div>
           </div>
 
