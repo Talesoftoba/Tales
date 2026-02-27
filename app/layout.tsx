@@ -15,8 +15,8 @@ const dm = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio — Design Engineer",
-  description: "I turn beautiful designs into code that actually ships—and stays pretty.",
+  title: "Talesoftoba — Frontend Engineer",
+  description: "I turn designs into code that actually ships—and works.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

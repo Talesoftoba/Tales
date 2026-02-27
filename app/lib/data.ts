@@ -1,10 +1,10 @@
 export const META = {
   initials: "TS",
-  timezone: "UTC +5:30",
-  location: "India /",
+  timezone: "GMT+1",
+  location: "Nigeria /",
   experience: "3+ years",
-  role: "Design Engineer, Frontend Engineer",
-  skillset: "Design, Code and Agile",
+  role: "Frontend Engineer",
+  skillset: "Design, Code and Push",
   twitter: "https://twitter.com/Talesoftoba",
   email: "Tobaking4@gmail.com",
   github: "https://github.com/Talesoftoba",
@@ -13,43 +13,56 @@ export const META = {
 };
 
 export const TIMELINE: { role: string; period: string }[] = [
-  { role: "Portdex",    period: "2025 – Now"  },
-  { role: "Freelance",  period: "2024"        },
-  { role: "Emids",      period: "2022 – 2023" },
+  { role: "Freelance",    period: "2025 – Now"  },
+  { role: "Site",         period: "2024"        },
+  { role: "Tutor",      period: "2022 -2023" },
   { role: "Internship", period: "2021 – 2022" },
 ];
 
-export const WORK: { title: string; tag: string; desc: string }[] = [
+export const WORK: {
+   title: string;
+   tag: string;
+    desc: string;
+   link:string;
+   image:string;
+   }[] = [
   {
-    title: "Design Engineering",
-    tag: "Core",
-    desc: "Bridging the gap between design and production-ready code. Pixel-perfect implementation of complex interfaces.",
+    title: "Full stack ",
+    tag: "Nextjs / React / Typescript",
+    desc: "I build things for the web  — clean interfaces, solid backends and everything in between. ",
+    link: "",
+    image:""
   },
   {
     title: "Frontend Development",
-    tag: "React / Next",
-    desc: "Scalable, performant frontends with clean architecture that teams love to maintain.",
+    tag: "React / Typescript",
+    desc: "I turn designs into fast, clean, and intuitive web experiences. React & Next.js are my playground — every pixel intentional, every interaction smooth.",
+    link:"",
+    image:"",
   },
   {
     title: "UI / UX Design",
     tag: "Figma",
-    desc: "User-centred interfaces with strong visual hierarchy, interaction design, and motion.",
+    desc: "I design experiences people don't have to think about. Clean layouts, thoughtful interactions, and interfaces that just feel right.",
+    link:"",
+    image:""
   },
 ];
 
 export const STACK = [
   "React", "Next.js", "TypeScript",
   "Figma", "Framer", "Tailwind",
-  "GSAP", "Node.js", "Git", "Agile",
+   "Git", 
 ];
 
-export const PROJECTS: { title: string; desc: string; tags: string[]; year: string; link: string }[] = [
+export const PROJECTS: { title: string; desc: string; tags: string[]; year: string; link: string; image: string }[] = [
   {
-    title: "Portdex",
-    desc: "A design-engineering platform for building and shipping portfolio sites fast.",
-    tags: ["Next.js", "Tailwind", "TypeScript"],
+    title: "Full stack e-commerce site",
+    desc: "A modern, production-ready e-commerce platform built for performance, security, and seamless user experience.",
+    tags: ["Next.js", "Tailwind", "TypeScript", "React"],
     year: "2025",
-    link: "#",
+    link: "https://nextjs-storeweb.vercel.app",
+    image:"/projects/ecomm.jpg",
   },
   {
     title: "Emids Dashboard",
@@ -57,6 +70,7 @@ export const PROJECTS: { title: string; desc: string; tags: string[]; year: stri
     tags: ["React", "D3.js", "Figma"],
     year: "2023",
     link: "#",
+    image:"",
   },
   {
     title: "Freelance Projects",
@@ -64,6 +78,7 @@ export const PROJECTS: { title: string; desc: string; tags: string[]; year: stri
     tags: ["Framer", "React", "GSAP"],
     year: "2024",
     link: "#",
+    image:"",
   },
 ];
 

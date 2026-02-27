@@ -8,10 +8,12 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style>{`#card::-webkit-scrollbar { display: none; }`}</style>
-      <main
-        className="relative flex items-center justify-center min-h-screen overflow-hidden font-body"
-        style={{ backgroundColor: "#EDE5D8" }}
-      >
+     <main
+  className="relative flex items-center justify-center min-h-screen overflow-hidden font-body"
+ style={{
+  background: "linear-gradient(to bottom, #F5F0E8 40%, #1C1A14 60%)",
+}}
+>
 
         {/* background glows */}
         <div aria-hidden className="pointer-events-none fixed inset-0">
@@ -20,9 +22,14 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* floating site tag */}
-        <p className="fixed top-5 right-6 font-display text-[10px] font-bold tracking-[0.16em] uppercase text-[#9A9A9A] z-20 select-none">
-          Portfolio ✦ 2025
-        </p>
+<div className="fixed top-5 right-6 z-20 select-none text-right">
+  <p className="font-display text-[13px] font-extrabold tracking-[0.15em] uppercase text-[#111111] pr-2">
+    Talesdev
+  </p>
+  <p className="font-display text-[9px] font-bold tracking-[0.16em] uppercase text-[#9A9A9A]">
+    Portfolio ✦ 2025
+  </p>
+</div>
 
         {/* card wrapper */}
         <div className="relative z-10 w-[min(415px,92vw)]">
@@ -30,7 +37,11 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           {/* header outside card */}
           <div className="flex items-center justify-between mb-4 px-1">
             <div className="w-12 h-12 rounded-xl overflow-hidden relative">
-              <Image src="/avatar.jpg" alt="Avatar" fill className="object-cover" />
+              <Image src="/avatar1.jpg" 
+              alt="Avatar" 
+              quality={100}
+              fill
+               className="object-cover" />
             </div>
             <ContactButton phone={META.phone} />
           </div>

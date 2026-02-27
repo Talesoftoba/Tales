@@ -1,5 +1,7 @@
+import Image from "next/image";
 import CardShell from "../components/CardShell";
-import { PROJECTS } from "../lib/data"; 
+import Link from "next/link";
+import { PROJECTS } from "../lib/data";
 
 export default function Work() {
   return (
@@ -17,14 +19,26 @@ export default function Work() {
 
       {/* project cards */}
       <div className="flex flex-col gap-4 mb-10">
-        {PROJECTS.map(({ title, desc, tags, year, link }) => (
-          <a
+        {PROJECTS.map(({ title, desc, tags, year, link, image }) => (
+          <Link
             key={title}
             href={link}
             target="_blank"
             rel="noopener noreferrer"
             className="group border border-black/8 rounded-2xl p-5 hover:border-[#FF5C00] hover:-translate-y-px transition-all duration-200 no-underline"
           >
+            {/* project image */}
+            {image && (
+              <div className="relative w-full h-40 mb-4 rounded-xl overflow-hidden">
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+
             <div className="flex items-start justify-between mb-2">
               <p className="font-display text-[14.5px] font-bold text-[#111111] group-hover:text-[#FF5C00] transition-colors duration-200">
                 {title}
@@ -44,7 +58,7 @@ export default function Work() {
                 </span>
               ))}
             </div>
-          </a>
+          </Link>
         ))}
       </div>
 

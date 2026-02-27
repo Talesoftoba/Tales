@@ -43,8 +43,8 @@ export default function Home() {
 
       {/* headline */}
       <h1 className="font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#111111] mb-8 text-[clamp(30px,8.5vw,40px)]">
-        I turn beautiful designs into code that actually ships—
-        <span className="text-[#FF5C00]">and stays pretty.</span>
+        I build fast, design ,ship clean —
+        <span className="text-[#FF5C00]"> and it performs.</span>
       </h1>
 
       {/* CTA row */}
@@ -53,14 +53,17 @@ export default function Home() {
           href={META.twitter}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-[9px] font-display text-[11px] font-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/[0.04] transition-all duration-200"
+          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-2.25 font-display text-[11px] 
+          font-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00]
+           hover:bg-[#FF5C00]/4 transition-all duration-200"
         >
           <IconX />
           Twitter
         </Link>
         <Link
           href={`mailto:${META.email}`}
-          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-[9px] font-display text-[11px] font-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/[0.04] transition-all duration-200"
+          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-2.25 font-display text-[11px] f
+          ont-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-all duration-200"
         >
           <IconMail />
           Email
@@ -69,7 +72,9 @@ export default function Home() {
           href={META.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-[9px] font-display text-[11px] font-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/[0.04] transition-all duration-200"
+          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-2.25 font-display 
+          text-[11px] font-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00]
+           hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-all duration-200"
         >
           <IconGithub />
           GitHub
@@ -78,7 +83,8 @@ export default function Home() {
           href={META.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-[9px] font-display text-[11px] font-bold tracking-[0.07em] uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/[0.04] transition-all duration-200"
+          className="flex items-center gap-2 border border-black/[0.14] rounded-full px-4 py-2.25 font-display text-[11px] font-bold tracking-[0.07em]
+           uppercase text-[#111111] no-underline hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-all duration-200"
         >
           <IconLinkedin />
           LinkedIn
@@ -98,7 +104,8 @@ export default function Home() {
             {TIMELINE.map((_, i) => (
               <span
                 key={i}
-                className="w-2.5 h-2.5 rounded-full bg-[#FF5C00] border-2 border-white shadow-[0_0_0_2px_#FF5C00] hover:scale-150 transition-transform duration-150 cursor-pointer"
+                className="w-2.5 h-2.5 rounded-full bg-[#FF5C00] border-2 border-white shadow-[0_0_0_2px_#FF5C00]
+                 hover:scale-150 transition-transform duration-150 cursor-pointer"
               />
             ))}
           </div>
@@ -119,7 +126,7 @@ export default function Home() {
       <section className="mb-11">
         <Label>Fields of Work</Label>
         <p className="font-body text-[13px] text-[#9A9A9A] leading-relaxed mt-1.5 mb-5">
-          Design &amp; code with intent. Sharp. Functional.
+           Design, Build & Ship for the Web.
         </p>
         <div className="flex flex-col gap-3.5">
           {WORK.map(({ title, tag, desc }) => (
@@ -146,7 +153,9 @@ export default function Home() {
           {STACK.map((s) => (
             <span
               key={s}
-              className="font-display text-[10.5px] font-semibold tracking-[0.04em] px-3.5 py-1.5 rounded-full border border-black/10 text-[#111111] hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/3 transition-all duration-200 cursor-default"
+              className="font-display text-[10.5px] font-semibold tracking-[0.04em] px-3.5 py-1.5 rounded-full border
+               border-black/10 text-[#111111] hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/3 transition-all
+                duration-200 cursor-default"
             >
               {s}
             </span>
