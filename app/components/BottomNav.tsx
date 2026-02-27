@@ -14,15 +14,17 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-full bg-white/95 backdrop-blur-md border-t border-black/5 flex justify-around pt-3 pb-2 rounded-b-[26px]">
+    <nav className="flex justify-around items-center pt-3 pb-4 px-2">
       {NAV.map(({ label, href, icon: Icon }) => {
         const active = pathname === href;
         return (
           <Link
             key={label}
             href={href}
-            className={`flex flex-col items-center gap-1 px-5 font-display text-[9px] font-bold tracking-widest uppercase transition-colors duration-150 no-underline ${
-              active ? "text-[#FF5C00]" : "text-[#9A9A9A] hover:text-[#111111]"
+            className={`flex flex-col items-center gap-1.5 px-5 py-1.5 rounded-2xl font-display text-[10px] font-extrabold tracking-widest uppercase transition-all duration-200 no-underline ${
+              active
+                ? "text-[#FF5C00] bg-white/10"
+                : "text-white/70 hover:text-white"
             }`}
           >
             <Icon />

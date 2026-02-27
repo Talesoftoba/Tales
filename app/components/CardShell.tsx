@@ -10,12 +10,11 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
       <style>{`
         #card::-webkit-scrollbar { display: none; }
 
-        /* dvh = dynamic viewport height — shrinks when mobile browser chrome appears */
-        .card-height { height: min(87dvh, 770px); }
+        /* dvh shrinks when mobile browser chrome appears — correct unit for mobile */
+        .card-wrapper { height: min(100dvh, 860px); }
 
-        /* fallback for older browsers that don't support dvh */
         @supports not (height: 1dvh) {
-          .card-height { height: min(80vh, 770px); }
+          .card-wrapper { height: min(93vh, 860px); }
         }
       `}</style>
 
@@ -41,11 +40,11 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           </p>
         </div>
 
-        {/* card wrapper */}
-        <div className="relative z-10 w-[min(415px,92vw)]">
+        {/* outer wrapper — full height, flex-col: header + card + nav stacked */}
+        <div className="card-wrapper relative z-10 w-[min(415px,92vw)] flex flex-col justify-center">
 
-          {/* header: pr-[120px] stops ContactButton sliding under the fixed site tag on mobile */}
-          <div className="flex items-center justify-between mb-4 px-1 pr-30 sm:pr-1">
+          {/* header */}
+          <div className="flex items-center justify-between mb-4 px-1 pr-30 sm:pr-1 shrink-0">
             <div className="w-12 h-12 rounded-xl overflow-hidden relative shrink-0">
               <Image
                 src="/avatar1.jpg"
@@ -58,11 +57,10 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             <ContactButton phone={META.phone} />
           </div>
 
-          {/* white card — flex-col so nav is always pinned to the bottom */}
-          <div className="card-height w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.13)] flex flex-col overflow-hidden">
-
-            {/* scrollable content — min-h-0 is critical: without it flex children
-                ignore overflow and the scroll area expands past the card height  */}
+          {/* white card — takes remaining space, no nav inside */}
+          <div
+            className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.13)] overflow-hidden"
+          >
             <div
               id="card"
               style={{
@@ -70,18 +68,22 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
                 overflowX: "hidden",
                 msOverflowStyle: "none",
                 scrollbarWidth: "none",
+                height: "100%",
               } as React.CSSProperties}
-              className="flex-1 min-h-0 px-7 pt-8 pb-2"
+              className="px-7 pt-8 pb-4"
             >
               {children}
             </div>
+          </div>
 
-            {/* nav lives outside the scroll area — always visible */}
+          {/* nav sits OUTSIDE the card, floats over the dark gradient bottom */}
+          <div className="shrink-0">
             <BottomNav />
           </div>
 
-          <ScrollHint targetId="card" />
         </div>
+
+        <ScrollHint targetId="card" />
       </main>
     </>
   );
