@@ -1,7 +1,6 @@
 import Image from "next/image";
 import ContactButton from "./ContactButton";
 import BottomNav from "./BottomNav";
-import ScrollHint from "./ScrollHint";
 import { META } from "../lib/data";
 
 export default function CardShell({ children }: { children: React.ReactNode }) {
@@ -11,7 +10,15 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         #card::-webkit-scrollbar { display: none; }
 
         .page-bg {
-          background: linear-gradient(to bottom, #F5F0E8 0%, #F5F0E8 55%, #1C1A14 55%, #1C1A14 100%);
+          background: linear-gradient(to bottom, #F5F0E8 0%, #F5F0E8 35%, #1C1A14 70%, #1C1A14 100%);
+        }
+
+        .card-col {
+          height: min(100dvh, 860px);
+        }
+
+        @supports not (height: 1dvh) {
+          .card-col { height: min(93vh, 860px); }
         }
       `}</style>
 
@@ -23,30 +30,18 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           <div className="absolute top-[5%] right-[5%] w-[35vw] h-[35vw] rounded-full bg-[#FF5C00]/7 blur-[70px]" />
         </div>
 
-        {/* entire layout column */}
-        <div
-          className="relative z-10 w-[min(415px,92vw)] flex flex-col"
-          style={{ height: "min(100dvh, 860px)" }}
-        >
+        {/* full-height column: header → card → nav */}
+        <div className="card-col relative z-10 w-[min(415px,92vw)] flex flex-col">
 
-          {/* ── TOP HEADER ── sits on the cream background */}
-          <div className="shrink-0 flex items-center justify-between px-1 pt-4 pb-4">
-            {/* left: avatar */}
+          {/* HEADER */}
+          <div className="shrink-0 flex items-center justify-between px-1 pt-3 pb-3">
             <div className="w-11 h-11 rounded-xl overflow-hidden relative shrink-0">
-              <Image
-                src="/avatar1.jpg"
-                alt="Avatar"
-                quality={100}
-                fill
-                className="object-cover"
-              />
+              <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill className="object-cover" />
             </div>
 
-            {/* center: contact button */}
             <ContactButton phone={META.phone} />
 
-            {/* right: site tag */}
-            <div className="text-right select-none">
+            <div className="text-right select-none pointer-events-none">
               <p className="font-display text-[12px] font-extrabold tracking-[0.15em] uppercase text-[#111111]">
                 Talesdev
               </p>
@@ -56,7 +51,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* ── WHITE CARD ── fills all space between header and nav */}
+          {/* WHITE CARD */}
           <div
             className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.18)]"
             style={{ overflow: "hidden" }}
@@ -76,14 +71,13 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* ── BOTTOM NAV ── floats on the dark background */}
+          {/* BOTTOM NAV */}
           <div className="shrink-0">
             <BottomNav />
           </div>
 
         </div>
 
-        <ScrollHint targetId="card" />
       </main>
     </>
   );
