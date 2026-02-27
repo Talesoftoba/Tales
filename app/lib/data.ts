@@ -15,7 +15,7 @@ export const META = {
 export const TIMELINE: { role: string; period: string }[] = [
   { role: "Freelance",    period: "2025 – Now"  },
   { role: "Site",         period: "2024"        },
-  { role: "Tutor",      period: "2022 -2023" },
+  { role: "Tutor-class",      period: "2022 -2023" },
   { role: "Internship", period: "2021 – 2022" },
 ];
 

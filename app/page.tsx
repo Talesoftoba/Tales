@@ -2,7 +2,26 @@ import { Fragment } from "react";
 import Link from "next/link";
 import CardShell from "./components/CardShell";
 import { IconX, IconMail, IconGithub, IconLinkedin} from "./components/icons"; 
-import { META, TIMELINE, WORK, STACK } from "./lib/data"; 
+import { META, TIMELINE, WORK } from "./lib/data"; 
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiFigma,
+  SiFramer,
+  SiTailwindcss,
+  SiGit,
+} from "react-icons/si";
+
+const STACK = [
+  { name: "React",      Icon: SiReact,       color: "#61DAFB" },
+  { name: "Next.js",    Icon: SiNextdotjs,   color: "#000000" },
+  { name: "TypeScript", Icon: SiTypescript,  color: "#3178C6" },
+  { name: "Figma",      Icon: SiFigma,       color: "#F24E1E" },
+  { name: "Framer",     Icon: SiFramer,      color: "#0055FF" },
+  { name: "Tailwind",   Icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "Git",        Icon: SiGit,         color: "#F05032" },
+];
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
@@ -150,14 +169,19 @@ export default function Home() {
       <section className="mb-10">
         <Label>Tech Stack</Label>
         <div className="flex flex-wrap gap-2 mt-4">
-          {STACK.map((s) => (
+          {STACK.map(({ name, Icon, color }) => (
             <span
-              key={s}
-              className="font-display text-[10.5px] font-semibold tracking-[0.04em] px-3.5 py-1.5 rounded-full border
+              key={name}
+              className="flex items-center gap-2 font-display text-[10.5px] font-semibold tracking-[0.04em] px-3.5 py-1.5 rounded-full border
                border-black/10 text-[#111111] hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/3 transition-all
-                duration-200 cursor-default"
+                duration-200 cursor-default group"
             >
-              {s}
+              <Icon
+                size={13}
+                style={{ color }}
+                className="group-hover:scale-110 transition-transform duration-200"
+              />
+              {name}
             </span>
           ))}
         </div>
