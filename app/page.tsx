@@ -166,7 +166,7 @@ export default function Home() {
       </section>
 
       {/* tech stack */}
-      <section className="mb-10">
+      <section className="mb-4">
         <Label>Tech Stack</Label>
         <div className="flex flex-wrap gap-2 mt-4">
           {STACK.map(({ name, Icon, color }) => (
