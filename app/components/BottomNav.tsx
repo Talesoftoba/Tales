@@ -31,7 +31,6 @@ export default function BottomNav() {
               }
             `}
           >
-            {/* icon — scale up active */}
             <span className={`transition-transform duration-200 ${active ? "scale-110" : ""}`}>
               <Icon />
             </span>
