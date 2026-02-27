@@ -12,17 +12,9 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         .page-bg {
           background: linear-gradient(to bottom, #F5F0E8 0%, #F5F0E8 35%, #1C1A14 70%, #1C1A14 100%);
         }
-
-        .card-col {
-          height: min(100dvh, 860px);
-        }
-
-        @supports not (height: 1dvh) {
-          .card-col { height: min(93vh, 860px); }
-        }
       `}</style>
 
-      <main className="page-bg relative flex items-center justify-center min-h-screen overflow-hidden font-body">
+      <main className="page-bg relative flex items-start justify-center min-h-screen overflow-hidden font-body pt-4 pb-4">
 
         {/* background glows */}
         <div aria-hidden className="pointer-events-none fixed inset-0">
@@ -30,11 +22,14 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           <div className="absolute top-[5%] right-[5%] w-[35vw] h-[35vw] rounded-full bg-[#FF5C00]/7 blur-[70px]" />
         </div>
 
-        {/* full-height column: header → card → nav */}
-        <div className="card-col relative z-10 w-[min(415px,92vw)] flex flex-col">
+        {/* full column — uses screen height minus top+bottom padding */}
+        <div
+          className="relative z-10 w-[min(415px,92vw)] flex flex-col"
+          style={{ height: "calc(100dvh - 2rem)" }}
+        >
 
           {/* HEADER */}
-          <div className="shrink-0 flex items-center justify-between px-1 pt-3 pb-3">
+          <div className="shrink-0 flex items-center justify-between px-1 pb-3">
             <div className="w-11 h-11 rounded-xl overflow-hidden relative shrink-0">
               <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill className="object-cover" />
             </div>
@@ -51,7 +46,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* WHITE CARD */}
+          {/* WHITE CARD — takes all space between header and nav */}
           <div
             className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.18)]"
             style={{ overflow: "hidden" }}
@@ -71,7 +66,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* BOTTOM NAV */}
+          {/* BOTTOM NAV — always visible, guaranteed in view */}
           <div className="shrink-0">
             <BottomNav />
           </div>
