@@ -86,7 +86,7 @@ export const CRAFT: { title: string; desc: string; type: string }[] = [
   {
     title: "Micro-interactions",
     desc: "Subtle animations that make interfaces feel alive — hover states, transitions, and feedback loops.",
-    type: "Motion",
+    type: "Motions",
   },
   {
     title: "Typography Systems",
