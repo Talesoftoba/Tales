@@ -8,13 +8,12 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
     <>
       <style>{`
         #card::-webkit-scrollbar { display: none; }
-
-        .page-bg {
-          background: linear-gradient(to bottom, #F5F0E8 0%, #F5F0E8 35%, #1C1A14 70%, #1C1A14 100%);
-        }
       `}</style>
 
-      <main className="page-bg relative flex items-start justify-center min-h-screen overflow-hidden font-body pt-4 pb-4">
+      <main
+        className="relative flex items-start justify-center min-h-screen overflow-hidden font-body pt-4 pb-4"
+        style={{ background: "linear-gradient(to bottom, #F5F0E8 0%, #1C1A14 45%)" }}
+      >
 
         {/* background glows */}
         <div aria-hidden className="pointer-events-none fixed inset-0">
@@ -22,13 +21,13 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           <div className="absolute top-[5%] right-[5%] w-[35vw] h-[35vw] rounded-full bg-[#FF5C00]/7 blur-[70px]" />
         </div>
 
-        {/* full column — uses screen height minus top+bottom padding */}
+        {/* full column */}
         <div
           className="relative z-10 w-[min(415px,92vw)] flex flex-col"
           style={{ height: "calc(100dvh - 2rem)" }}
         >
 
-          {/* HEADER */}
+          {/* HEADER — text colors flipped for dark bg */}
           <div className="shrink-0 flex items-center justify-between px-1 pb-3">
             <div className="w-11 h-11 rounded-xl overflow-hidden relative shrink-0">
               <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill className="object-cover" />
@@ -37,18 +36,18 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             <ContactButton phone={META.phone} />
 
             <div className="text-right select-none pointer-events-none">
-              <p className="font-display text-[12px] font-extrabold tracking-[0.15em] uppercase text-[#111111]">
+              <p className="font-display text-[12px] font-extrabold tracking-[0.15em] uppercase text-white">
                 Talesdev
               </p>
-              <p className="font-display text-[8px] font-bold tracking-[0.14em] uppercase text-[#9A9A9A]">
+              <p className="font-display text-[8px] font-bold tracking-[0.14em] uppercase text-white/40">
                 Portfolio ✦ 2025
               </p>
             </div>
           </div>
 
-          {/* WHITE CARD — takes all space between header and nav */}
+          {/* WHITE CARD */}
           <div
-            className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.18)]"
+            className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.08),0_16px_56px_rgba(0,0,0,0.4)]"
             style={{ overflow: "hidden" }}
           >
             <div
@@ -66,7 +65,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          {/* BOTTOM NAV — always visible, guaranteed in view */}
+          {/* BOTTOM NAV — blends right into the dark bg */}
           <div className="shrink-0">
             <BottomNav />
           </div>
