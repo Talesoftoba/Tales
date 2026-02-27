@@ -14,20 +14,27 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex justify-around items-center pt-3 pb-4 px-2">
+    <nav className="flex justify-around items-center py-3">
       {NAV.map(({ label, href, icon: Icon }) => {
         const active = pathname === href;
         return (
           <Link
             key={label}
             href={href}
-            className={`flex flex-col items-center gap-1.5 px-5 py-1.5 rounded-2xl font-display text-[10px] font-extrabold tracking-widest uppercase transition-all duration-200 no-underline ${
-              active
+            className={`
+              flex flex-col items-center gap-1.5 px-6 py-2 rounded-2xl
+              font-display text-[10px] font-extrabold tracking-[0.12em] uppercase
+              transition-all duration-200 no-underline
+              ${active
                 ? "text-[#FF5C00] bg-white/10"
-                : "text-white/70 hover:text-white"
-            }`}
+                : "text-white/60 hover:text-white hover:bg-white/5"
+              }
+            `}
           >
-            <Icon />
+            {/* icon — scale up active */}
+            <span className={`transition-transform duration-200 ${active ? "scale-110" : ""}`}>
+              <Icon />
+            </span>
             {label}
           </Link>
         );
