@@ -13,9 +13,12 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         .page-bg {
           background: linear-gradient(to bottom, #F5F0E8 0%, #1C1A14 45%);
         }
+        .card-glow {
+          filter: drop-shadow(0 0 40px rgba(255, 92, 0, 0.18)) drop-shadow(0 20px 60px rgba(0, 0, 0, 0.25));
+        }
       `}</style>
 
-      <main className="page-bg relative flex justify-center min-h-screen overflow-x-hidden font-body">
+      <main className="page-bg relative flex justify-center min-h-screen font-body">
 
         {/* glows */}
         <div aria-hidden className="pointer-events-none fixed inset-0">
@@ -39,7 +42,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <div className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.18)]" style={{ overflow: "hidden" }}>
+          <div className="card-glow flex-1 min-h-0 w-full bg-white rounded-[26px]" style={{ overflow: "hidden" }}>
             <div id="card"
               style={{ height: "100%", overflowY: "auto", overflowX: "hidden", msOverflowStyle: "none", scrollbarWidth: "none" } as React.CSSProperties}
               className="px-7 pt-8 pb-6"
@@ -58,7 +61,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         >
           {/* white card */}
           <div
-            className="flex-1 min-h-0 w-full bg-white rounded-[26px] shadow-[0_2px_4px_rgba(0,0,0,0.04),0_16px_56px_rgba(0,0,0,0.18)] flex overflow-hidden"
+            className="card-glow flex-1 min-h-0 w-full bg-white rounded-[26px] flex overflow-hidden"
           >
             {/* LEFT — static sidebar, never scrolls */}
             <DesktopSidebar />
