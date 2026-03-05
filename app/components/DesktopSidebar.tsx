@@ -25,7 +25,7 @@ export default function DesktopSidebar() {
         {/* avatar + contact button side by side */}
         <div className="flex items-center gap-3 mb-5">
           <div className="w-12 h-12 rounded-2xl overflow-hidden relative shrink-0">
-            <Image src="/avatar1.jpg" alt="Avatar" quality={100} fill sizes="140px" className="object-cover" />
+            <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="140px" className="object-cover" />
           </div>
           <ContactButton phone={META.phone} />
         </div>
