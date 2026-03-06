@@ -4,21 +4,8 @@ import Link from "next/link";
 import CardShell from "./components/CardShell";
 import { IconX, IconMail, IconGithub, IconLinkedin } from "./components/icons";
 import { META, WORK } from "./lib/data";
-import {
-  SiReact, SiNextdotjs, SiTypescript, SiFigma,
-  SiFramer, SiTailwindcss, SiGit,
-} from "react-icons/si";
 import { motion, type Variants } from "framer-motion";
-
-const STACK = [
-  { name: "React",      Icon: SiReact,       color: "#61DAFB" },
-  { name: "Next.js",    Icon: SiNextdotjs,   color: "#000000" },
-  { name: "TypeScript", Icon: SiTypescript,  color: "#3178C6" },
-  { name: "Figma",      Icon: SiFigma,       color: "#F24E1E" },
-  { name: "Framer",     Icon: SiFramer,      color: "#0055FF" },
-  { name: "Tailwind",   Icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "Git",        Icon: SiGit,         color: "#F05032" },
-];
+import TechStackMarquee from "./components/TechStackMarquee";
 
 // ── Variants ────────────────────────────────────────────────────────────────
 
@@ -42,7 +29,7 @@ const workCardVariant: Variants = {
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 24 } },
 };
 
-// ── Reusable pieces ─────────────────────────────────────────────────────────
+// ── Shared pieces ────────────────────────────────────────────────────────────
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
@@ -83,34 +70,6 @@ function SocialChip({ href, icon, label, target, mobile }: {
   );
 }
 
-function StackBadge({ name, Icon, color, size, mobile }: {
-  name: string; Icon: React.ElementType; color: string; size: number; mobile?: boolean;
-}) {
-  return (
-    <motion.span
-      variants={chipVariant}
-      whileHover={{
-        scale: 1.1,
-        y: -3,
-        transition: { type: "spring", stiffness: 400, damping: 16 },
-      }}
-      whileTap={{ scale: 0.92, transition: { duration: 0.08 } }}
-      className={`flex items-center gap-2 font-display font-semibold tracking-[0.04em]
-        rounded-full border border-black/10 text-[#000000] cursor-default
-        hover:border-[#FF5C00] hover:text-[#FF5C00] transition-colors duration-150
-        ${mobile ? "px-3.5 py-1.5 text-[10.5px]" : "px-4 py-2 text-[11px]"}`}
-    >
-      <motion.span
-        whileHover={{ rotate: 15, scale: 1.25, transition: { type: "spring", stiffness: 380, damping: 12 } }}
-        style={{ display: "flex" }}
-      >
-        <Icon size={size} style={{ color }} />
-      </motion.span>
-      {name}
-    </motion.span>
-  );
-}
-
 function WorkCard({ title, tag, desc, mobile }: {
   title: string; tag: string; desc: string; mobile?: boolean;
 }) {
@@ -138,7 +97,7 @@ function WorkCard({ title, tag, desc, mobile }: {
   );
 }
 
-// ── Page ────────────────────────────────────────────────────────────────────
+// ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   return (
@@ -177,23 +136,16 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Tech stack — triggers when scrolled into view */}
+        {/* Tech stack marquee */}
         <motion.section
-          className="mb-11"
+          className="mb-11 -mx-7"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
         >
-          <Label>Tech Stack</Label>
-          <motion.div
-            className="flex flex-wrap gap-2 mt-4"
-            variants={stagger(0.05)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
-          >
-            {STACK.map(({ name, Icon, color }) => (
-              <StackBadge key={name} name={name} Icon={Icon} color={color} size={13} mobile />
-            ))}
-          </motion.div>
+          <div className="px-7 mb-3"><Label>Tech Stack</Label></div>
+          <TechStackMarquee />
         </motion.section>
 
-        {/* Fields of work — stagger in on scroll */}
+        {/* Fields of work */}
         <motion.section
           className="mb-4"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
@@ -237,23 +189,16 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Tech stack — scroll triggered */}
+        {/* Tech stack marquee */}
         <motion.section
-          className="mb-14"
+          className="mb-14 -mx-10"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
         >
-          <Label>Tech Stack</Label>
-          <motion.div
-            className="flex flex-wrap gap-2.5 mt-4"
-            variants={stagger(0.05)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
-          >
-            {STACK.map(({ name, Icon, color }) => (
-              <StackBadge key={name} name={name} Icon={Icon} color={color} size={14} />
-            ))}
-          </motion.div>
+          <div className="px-10 mb-3"><Label>Tech Stack</Label></div>
+          <TechStackMarquee />
         </motion.section>
 
-        {/* Fields of work — scroll triggered */}
+        {/* Fields of work */}
         <motion.section
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
         >
