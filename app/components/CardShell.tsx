@@ -48,7 +48,10 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
             <div className="w-11 h-11 rounded-xl overflow-hidden relative shrink-0">
-              <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="44px" className="object-cover" />
+              <Image src="/avatar2.jpg" alt="Avatar"
+               quality={100}
+                fill sizes="44px"
+               className="object-cover" />
             </div>
             <ContactButton phone={META.phone} />
             <div className="text-right select-none pointer-events-none">
