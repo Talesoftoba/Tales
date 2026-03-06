@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconHome, IconBriefcase, IconPen } from "./icons";
+import { motion, type Variants } from "framer-motion";
 
 const NAV = [
   { label: "Home",  href: "/",      icon: IconHome      },
@@ -10,24 +11,55 @@ const NAV = [
   { label: "Craft", href: "/craft", icon: IconPen       },
 ];
 
+const navVariants: Variants = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+};
+
+const itemVariant: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 280, damping: 22 } },
+};
+
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="md:hidden flex justify-around items-center py-3">
+    <motion.nav
+      className="md:hidden flex justify-around items-center py-3"
+      variants={navVariants}
+      initial="hidden"
+      animate="show"
+    >
       {NAV.map(({ label, href, icon: Icon }) => {
         const active = pathname === href;
         return (
-          <Link key={label} href={href}
-            className={`flex flex-col items-center gap-1.5 px-6 py-2 rounded-2xl font-display text-[10px] font-extrabold tracking-[0.12em] uppercase transition-all duration-200 no-underline ${
-              active ? "text-[#FF5C00] bg-white/10" : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
+          <motion.div
+            key={label}
+            variants={itemVariant}
+            whileHover={{ scale: 1.12, y: -2, transition: { type: "spring", stiffness: 380, damping: 18 } }}
+            whileTap={{ scale: 0.88, transition: { duration: 0.08 } }}
           >
-            <span className={`transition-transform duration-200 ${active ? "scale-110" : ""}`}><Icon /></span>
-            {label}
-          </Link>
+            <Link
+              href={href}
+              className={`flex flex-col items-center gap-1.5 px-6 py-2 rounded-2xl font-display text-[10px]
+                font-extrabold tracking-[0.12em] uppercase no-underline transition-colors duration-150
+                ${active ? "text-[#FF5C00] bg-white/10" : "text-white/60 hover:text-white hover:bg-white/5"}`}
+            >
+              <motion.span
+                animate={active
+                  ? { scale: 1.2, transition: { type: "spring", stiffness: 340, damping: 18 } }
+                  : { scale: 1,   transition: { type: "spring", stiffness: 280, damping: 22 } }
+                }
+                style={{ display: "flex" }}
+              >
+                <Icon />
+              </motion.span>
+              {label}
+            </Link>
+          </motion.div>
         );
       })}
-    </nav>
+    </motion.nav>
   );
 }
