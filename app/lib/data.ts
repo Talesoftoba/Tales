@@ -66,11 +66,19 @@ export const PROJECTS: { title: string; desc: string; tags: string[]; year: stri
   },
   {
     title: "Bank Loan app",
-    desc: "Loan processing Bank app, built with secure user authentication and authorization",
+    desc: "Loan processing Bank app, built with secure user authentication and authorization.",
     tags: ["Next.js", "Tailwind", "TypeScript", "React"],
     year: "2025",
     link: "https://loan-app-bay.vercel.app",
     image:"/projects/loan.jpg",
+  },
+    {
+    title: "Spendly SaaS Finance Dashboard",
+    desc: "personal finance tracking app that helps users manage their money in one place.",
+    tags:  ["Next.js", "Tailwind", "TypeScript", "React"],
+    year: "2026",
+    link: "https://spendly-steel.vercel.app/",
+    image:"/projects/saas.jpg",
   },
   {
     title: "Freelance Projects",
