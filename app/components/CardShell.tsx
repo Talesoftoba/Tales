@@ -23,7 +23,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
 
       <main className="page-bg relative flex justify-center min-h-screen font-body">
 
-        {/* Ambient glows — fade in slowly */}
+        {/* Ambient glows */}
         <motion.div
           aria-hidden
           className="pointer-events-none fixed inset-0"
@@ -40,7 +40,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           className="md:hidden relative z-10 w-[96vw] max-w-130 flex flex-col pt-4 pb-4"
           style={{ height: "100dvh" }}
         >
-          {/* Top bar — slides down */}
+          {/* Top bar */}
           <motion.div
             className="shrink-0 flex items-center justify-between px-1 pb-3"
             initial={{ opacity: 0, y: -14 }}
@@ -60,7 +60,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </div>
           </motion.div>
 
-          {/* White card — scales up from slightly below */}
+          {/* White card */}
           <motion.div
             className="card-glow flex-1 min-h-0 w-full bg-white rounded-[26px]"
             style={{ overflow: "hidden" }}
@@ -77,13 +77,22 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
                 msOverflowStyle: "none",
                 scrollbarWidth: "none",
               } as React.CSSProperties}
-              className="px-7 pt-8 pb-6"
+              // pb-24 ensures content scrolls clear of the bottom nav
+              className="px-7 pt-8 pb-24"
             >
               {children}
             </div>
           </motion.div>
 
-          <div className="shrink-0"><BottomNav /></div>
+          {/*
+            BottomNav sits outside the scroll container and is rendered
+            on top via z-50 + solid background (set inside BottomNav).
+            It is NOT inside the scrollable #card div so taps never
+            reach content scrolled behind it.
+          */}
+          <div className="shrink-0 relative z-50">
+            <BottomNav />
+          </div>
         </div>
 
         {/* ══════════════  DESKTOP  ══════════════ */}
@@ -91,14 +100,14 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           className="hidden md:flex relative z-10 flex-col"
           style={{ width: "92vw", height: "100dvh", paddingTop: "2rem", paddingBottom: "2rem" }}
         >
-          {/* White card — scales up from slightly below */}
+          {/* White card */}
           <motion.div
             className="card-glow flex-1 min-h-0 w-full bg-white rounded-[26px] flex overflow-hidden"
             initial={{ opacity: 0, y: 32, scale: 0.975 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* LEFT — static sidebar, slides in from left */}
+            {/* LEFT — static sidebar */}
             <motion.div
               className="h-full"
               initial={{ opacity: 0, x: -20 }}
@@ -108,7 +117,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
               <DesktopSidebar />
             </motion.div>
 
-            {/* RIGHT — page content, fades in */}
+            {/* RIGHT — page content */}
             <motion.div
               className="right-panel flex-1 min-w-0 px-10 py-10"
               style={{ overflowY: "auto", overflowX: "hidden", scrollbarWidth: "none" }}
@@ -120,7 +129,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             </motion.div>
           </motion.div>
 
-          {/* Bottom nav */}
+          {/* BottomNav is md:hidden so this renders nothing on desktop */}
           <div className="shrink-0">
             <BottomNav />
           </div>

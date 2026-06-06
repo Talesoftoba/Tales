@@ -26,7 +26,10 @@ export default function BottomNav() {
 
   return (
     <motion.nav
-      className="md:hidden grid grid-cols-3 items-center py-2"
+      className="md:hidden grid grid-cols-3 items-center py-2
+        relative z-50 bg-[#1C1A17]/95 backdrop-blur-md
+        border-t border-white/[0.08]
+        after:absolute after:inset-0 after:pointer-events-none"
       variants={navVariants}
       initial="hidden"
       animate="show"
@@ -43,9 +46,11 @@ export default function BottomNav() {
           >
             <Link
               href={href}
+              prefetch
               className={`flex flex-col items-center gap-1.5 px-5 py-2 rounded-2xl font-display text-[10px]
                 font-extrabold tracking-[0.12em] uppercase no-underline transition-colors duration-150
-                ${active ? "text-[#FF5C00] bg-white/10" : "text-white/60 hover:text-white hover:bg-white/5"}`}
+                touch-manipulation select-none
+                ${active ? "text-[#FF5C00] bg-white/10" : "text-white/60 active:text-white"}`}
             >
               <motion.span
                 animate={active
