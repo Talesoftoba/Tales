@@ -3,18 +3,19 @@ export const META = {
   timezone: "GMT+1",
   location: "Nigeria /",
   experience: "3+ years",
-  role: "Frontend Engineer",
+  role: "Full-Stack Engineer",
   skillset: "Design, Code and Push",
   twitter: "https://twitter.com/Talesoftoba",
   email: "Tobaking4@gmail.com",
   github: "https://github.com/Talesoftoba",
   linkedin: "https://linkedin.com/in/samuel-ayoola-7b70823ab",
   phone: "2349039224121",
+  cv: "/Samuel_Ayoola_CV-fullstack.pdf",
 };
 
 export const TIMELINE: { role: string; period: string }[] = [
   { role: "Freelance",    period: "2025 – Now"  },
-  { role: "Site",         period: "2024"        },
+  { role: "Site",         period: "2024 - Now"   },
   { role: "Tutor-class",      period: "2022 -2023" },
   { role: "Internship", period: "2021 – 2022" },
 ];
@@ -28,14 +29,14 @@ export const WORK: {
    }[] = [
   {
     title: "Full stack ",
-    tag: "Nextjs / React / Typescript",
+    tag: "Nextjs / React / Typescript / Node.js / Express.js / postgreSQL / C#",
     desc: "I build things for the web  — clean interfaces, solid backends and everything in between. ",
     link: "",
     image:""
   },
   {
     title: "Frontend Development",
-    tag: "React / Typescript",
+    tag: "React / Typescript / Nextjs / supabase / Tailwind",
     desc: "I turn designs into fast, clean, and intuitive web experiences. React & Next.js are my playground — every pixel intentional, every interaction smooth.",
     link:"",
     image:"",
@@ -59,7 +60,7 @@ export const PROJECTS: { title: string; desc: string; tags: string[]; year: stri
   {
     title: "Full stack e-commerce site",
     desc: "A modern, production-ready e-commerce platform built for performance, security, and seamless user experience.",
-    tags: ["Next.js", "Tailwind", "TypeScript", "React"],
+    tags:  ["Next.js", "Tailwind", "TypeScript", "React", "Node.js", "Express", "PostgreSQL", "Supabase"],
     year: "2025",
     link: "https://nextjs-storeweb.vercel.app",
     image:"/projects/ecomm.jpg",
@@ -75,7 +76,7 @@ export const PROJECTS: { title: string; desc: string; tags: string[]; year: stri
     {
     title: "Spendly SaaS Finance Dashboard",
     desc: "personal finance tracking app that helps users manage their money in one place.",
-    tags:  ["Next.js", "Tailwind", "TypeScript", "React"],
+    tags:   ["Next.js", "Tailwind", "TypeScript", "React", "Node.js", "Express", "PostgreSQL", "Supabase"],
     year: "2026",
     link: "https://spendly-steel.vercel.app/",
     image:"/projects/saas.jpg",

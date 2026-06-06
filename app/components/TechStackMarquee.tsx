@@ -2,18 +2,25 @@
 
 import { motion } from "framer-motion";
 import {
-  SiReact, SiNextdotjs, SiTypescript, SiFigma,
-  SiFramer, SiTailwindcss, SiGit,
+  SiReact, SiNextdotjs, SiTypescript, SiJavascript,
+  SiNodedotjs, SiExpress, SiNestjs, SiSharp,
+  SiPostgresql, SiFigma, SiFramer, SiTailwindcss, SiGit,
 } from "react-icons/si";
 
 const STACK = [
-  { name: "React",      Icon: SiReact,       color: "#61DAFB" },
-  { name: "Next.js",    Icon: SiNextdotjs,   color: "#000000" },
-  { name: "TypeScript", Icon: SiTypescript,  color: "#3178C6" },
-  { name: "Figma",      Icon: SiFigma,       color: "#F24E1E" },
-  { name: "Framer",     Icon: SiFramer,      color: "#0055FF" },
-  { name: "Tailwind",   Icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "Git",        Icon: SiGit,         color: "#F05032" },
+  { name: "React",       Icon: SiReact,       color: "#61DAFB" },
+  { name: "Next.js",     Icon: SiNextdotjs,   color: "currentColor" },
+  { name: "TypeScript",  Icon: SiTypescript,  color: "#3178C6" },
+  { name: "JavaScript",  Icon: SiJavascript,  color: "#F7DF1E" },
+  { name: "Node.js",     Icon: SiNodedotjs,   color: "#339933" },
+  { name: "Express",     Icon: SiExpress,     color: "currentColor" },
+  { name: "NestJS",      Icon: SiNestjs,      color: "#E0234E" },
+  { name: "C#",          Icon: SiSharp,      color: "#239120" },
+  { name: "PostgreSQL",  Icon: SiPostgresql,  color: "#4169E1" },
+  { name: "Figma",       Icon: SiFigma,       color: "#F24E1E" },
+  { name: "Framer",      Icon: SiFramer,      color: "#0055FF" },
+  { name: "Tailwind",    Icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "Git",         Icon: SiGit,         color: "#F05032" },
 ];
 
 // Duplicate for seamless loop
@@ -59,7 +66,7 @@ export default function TechStackMarquee() {
         className="flex gap-2.5 w-max"
         animate={{ x: ["0%", "-33.333%"] }}
         transition={{
-          duration: 18,
+          duration: 28,
           ease: "linear",
           repeat: Infinity,
         }}

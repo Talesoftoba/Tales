@@ -115,7 +115,7 @@ export default function ContactButton({ phone }: { phone: string }) {
         className="flex items-center gap-2 bg-[#FF5C00] text-white rounded-full px-4 py-2
           font-display font-bold text-[12px] tracking-wide no-underline"
       >
-        Contact me
+        WhatsApp
         <span className="flex gap-1" aria-hidden>
           <Eye scaleY={leftScaleY}  eyeX={eyeX} eyeY={eyeY} />
           <Eye scaleY={rightScaleY} eyeX={eyeX} eyeY={eyeY} />

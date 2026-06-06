@@ -3,7 +3,7 @@
 import Link from "next/link";
 import CardShell from "./components/CardShell";
 import { IconX, IconMail, IconGithub, IconLinkedin } from "./components/icons";
-import { META, WORK } from "./lib/data";
+import { META } from "./lib/data";
 import { motion, type Variants } from "framer-motion";
 import TechStackMarquee from "./components/TechStackMarquee";
 
@@ -24,16 +24,29 @@ const chipVariant: Variants = {
   show:   { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 300, damping: 22 } },
 };
 
-const workCardVariant: Variants = {
-  hidden: { opacity: 0, y: 30 },
+const skillCardVariant: Variants = {
+  hidden: { opacity: 0, y: 16 },
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 24 } },
 };
+
+// ── Skills data ──────────────────────────────────────────────────────────────
+
+const SKILLS = [
+  { category: "Frontend",  chips: ["React.js", "Next.js (v14/15)", "TypeScript", "JavaScript", "ES2022+"] },
+  { category: "Backend",   chips: ["Node.js", "Express.js", "NestJS", "C#", "Firebase", "REST & GraphQL APIs"] },
+  { category: "Database",  chips: ["PostgreSQL", "Supabase", "Firestore", "Prisma ORM"] },
+  { category: "Payments",  chips: ["Paystack", "Stripe", "Webhook handling", "Transaction reconciliation"] },
+  { category: "Auth",      chips: ["NextAuth v4", "JWT", "OAuth 2.0", "RBAC"] },
+  { category: "AI / RT",   chips: ["AI chat integration", "SSE", "Real-time data pipelines"] },
+  { category: "Styling",   chips: ["Tailwind CSS", "Framer Motion", "CSS3", "HTML5"] },
+  { category: "DevOps",    chips: ["Git", "GitHub Actions", "Vercel CI/CD"] },
+];
 
 // ── Shared pieces ────────────────────────────────────────────────────────────
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#1a1a1a]">
+    <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#888880]">
       {children}
     </p>
   );
@@ -45,6 +58,12 @@ const LINKS = [
   { href: META.github,            icon: <IconGithub />,   label: "GitHub",   target: true  },
   { href: META.linkedin,          icon: <IconLinkedin />, label: "LinkedIn", target: true  },
 ];
+
+const chipClass = (mobile?: boolean) =>
+  `flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full
+  font-display font-bold tracking-[0.07em] uppercase text-[#000000] no-underline
+  hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-colors duration-150
+  ${mobile ? "px-4 py-2 text-[11px]" : "px-5 py-2.5 text-[11px]"}`;
 
 function SocialChip({ href, icon, label, target, mobile }: {
   href: string; icon: React.ReactNode; label: string; target: boolean; mobile?: boolean;
@@ -59,10 +78,7 @@ function SocialChip({ href, icon, label, target, mobile }: {
         href={href}
         target={target ? "_blank" : undefined}
         rel={target ? "noopener noreferrer" : undefined}
-        className={`flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full
-          font-display font-bold tracking-[0.07em] uppercase text-[#000000] no-underline
-          hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-colors duration-150
-          ${mobile ? "px-4 py-2 text-[11px]" : "px-5 py-2.5 text-[11px]"}`}
+        className={chipClass(mobile)}
       >
         {icon}{label}
       </Link>
@@ -70,29 +86,68 @@ function SocialChip({ href, icon, label, target, mobile }: {
   );
 }
 
-function WorkCard({ title, tag, desc, mobile }: {
-  title: string; tag: string; desc: string; mobile?: boolean;
-}) {
+function ViewResumeChip({ mobile }: { mobile?: boolean }) {
   return (
     <motion.div
-      variants={workCardVariant}
-      whileHover={{
-        y: -7,
-        scale: 1.018,
-        borderColor: "#FF5C00",
-        boxShadow: "0 12px 40px rgba(255,92,0,0.18)",
-        transition: { type: "spring", stiffness: 320, damping: 20 },
-      }}
-      whileTap={{ scale: 0.975, transition: { duration: 0.1 } }}
-      className={`bg-[#0D0C0A] border border-black/8 rounded-2xl cursor-pointer
-        ${mobile ? "p-5" : "p-6"}`}
+      variants={chipVariant}
+      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
+      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
     >
-      <div className="flex items-start justify-between mb-2">
-        <p className={`font-display font-bold text-white ${mobile ? "text-[14.5px]" : "text-[15px]"}`}>{title}</p>
-        <span className="font-display text-[9px] font-bold tracking-[0.08em] uppercase text-[#FF5C00]
-          bg-[#FF5C00]/8 px-2 py-0.5 rounded-full shrink-0 ml-2">{tag}</span>
+      <Link
+        href="/Samuel_Ayoola_CV-fullstack.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={chipClass(mobile)}
+      >
+        View Resume
+      </Link>
+    </motion.div>
+  );
+}
+
+function DownloadCVChip({ mobile }: { mobile?: boolean }) {
+  return (
+    <motion.div
+      variants={chipVariant}
+      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
+      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
+    >
+      <a
+        href="/Samuel_Ayoola_CV-fullstack.pdf"
+        download="Samuel_Ayoola_CV-fullstack.pdf"
+        className={chipClass(mobile)}
+      >
+        Download CV
+      </a>
+    </motion.div>
+  );
+}
+
+function SkillCard({ category, chips }: { category: string; chips: string[] }) {
+  return (
+    <motion.div
+      variants={skillCardVariant}
+      className="bg-[#0D0C0A] border border-white/[0.07] rounded-2xl overflow-hidden"
+    >
+      {/* Card header */}
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06]">
+        <p className="font-display text-[10px] font-bold tracking-[0.16em] uppercase text-[#FF5C00]">
+          {category}
+        </p>
+        <span className="w-1.5 h-1.5 rounded-full bg-[#FF5C00]/50" />
       </div>
-      <p className={`font-body text-white/70 leading-relaxed ${mobile ? "text-[12.5px]" : "text-[13px]"}`}>{desc}</p>
+      {/* Chips */}
+      <div className="px-5 py-4 flex flex-wrap gap-2">
+        {chips.map((chip) => (
+          <span
+            key={chip}
+            className="font-body text-[11.5px] text-white/70 bg-white/[0.05]
+              border border-white/[0.08] px-3 py-1 rounded-lg leading-none"
+          >
+            {chip}
+          </span>
+        ))}
+      </div>
     </motion.div>
   );
 }
@@ -134,32 +189,37 @@ export default function Home() {
           {LINKS.map(({ href, icon, label, target }) => (
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} mobile />
           ))}
+          <ViewResumeChip mobile />
+          <DownloadCVChip mobile />
         </motion.div>
 
         {/* Tech stack marquee */}
         <motion.section
-          className="mb-11 -mx-7"
+          className="mb-12 -mx-7"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="px-7 mb-3"><Label>Tech Stack</Label></div>
+          <div className="px-7 mb-4 flex items-center gap-3">
+            <Label>Tech Stack</Label>
+            <div className="flex-1 h-px bg-black/[0.06]" />
+          </div>
           <TechStackMarquee />
         </motion.section>
 
-        {/* Fields of work */}
+        {/* Core Skills */}
         <motion.section
-          className="mb-4"
-          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }}
+          className="mb-6"
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }}
         >
-          <Label>Fields of Work</Label>
-          <p className="font-body text-[13px] text-[#1a1a1a] leading-relaxed mt-1.5 mb-5">
-            Design, Build &amp; Ship for the Web.
-          </p>
+          <div className="flex items-center gap-3 mb-5">
+            <Label>Core Skills</Label>
+            <div className="flex-1 h-px bg-black/[0.06]" />
+          </div>
           <motion.div
-            className="flex flex-col gap-3.5"
-            variants={stagger(0.1)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }}
+            className="flex flex-col gap-2.5"
+            variants={stagger(0.07)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05 }}
           >
-            {WORK.map(({ title, tag, desc }) => (
-              <WorkCard key={title} title={title} tag={tag} desc={desc} mobile />
+            {SKILLS.map(({ category, chips }) => (
+              <SkillCard key={category} category={category} chips={chips} />
             ))}
           </motion.div>
         </motion.section>
@@ -187,6 +247,8 @@ export default function Home() {
           {LINKS.map(({ href, icon, label, target }) => (
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} />
           ))}
+          <ViewResumeChip />
+          <DownloadCVChip />
         </motion.div>
 
         {/* Tech stack marquee */}
@@ -194,24 +256,27 @@ export default function Home() {
           className="mb-14 -mx-10"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="px-10 mb-3"><Label>Tech Stack</Label></div>
+          <div className="px-10 mb-4 flex items-center gap-3">
+            <Label>Tech Stack</Label>
+            <div className="flex-1 h-px bg-black/[0.06]" />
+          </div>
           <TechStackMarquee />
         </motion.section>
 
-        {/* Fields of work */}
+        {/* Core Skills */}
         <motion.section
-          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }}
         >
-          <Label>Fields of Work</Label>
-          <p className="font-body text-[13px] text-[#1a1a1a] leading-relaxed mt-1.5 mb-6">
-            Design, Build &amp; Ship for the Web.
-          </p>
+          <div className="flex items-center gap-3 mb-5">
+            <Label>Core Skills</Label>
+            <div className="flex-1 h-px bg-black/[0.06]" />
+          </div>
           <motion.div
-            className="grid grid-cols-2 gap-4"
-            variants={stagger(0.1)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }}
+            className="flex flex-col gap-2.5"
+            variants={stagger(0.07)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05 }}
           >
-            {WORK.map(({ title, tag, desc }) => (
-              <WorkCard key={title} title={title} tag={tag} desc={desc} />
+            {SKILLS.map(({ category, chips }) => (
+              <SkillCard key={category} category={category} chips={chips} />
             ))}
           </motion.div>
         </motion.section>

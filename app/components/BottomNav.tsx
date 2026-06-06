@@ -8,7 +8,7 @@ import { motion, type Variants } from "framer-motion";
 const NAV = [
   { label: "Home",  href: "/",      icon: IconHome      },
   { label: "Work",  href: "/work",  icon: IconBriefcase },
-  { label: "Craft", href: "/craft", icon: IconPen       },
+  { label: "Experience", href: "/craft", icon: IconPen       },
 ];
 
 const navVariants: Variants = {

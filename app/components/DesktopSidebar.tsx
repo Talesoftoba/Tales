@@ -5,13 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconHome, IconBriefcase, IconPen } from "./icons";
 import ContactButton from "./ContactButton";
-import { META, TIMELINE } from "../lib/data";
+import { META } from "../lib/data";
 import { motion, type Variants } from "framer-motion";
 
 const NAV = [
-  { label: "Home",  href: "/",      icon: IconHome      },
-  { label: "Work",  href: "/work",  icon: IconBriefcase },
-  { label: "Craft", href: "/craft", icon: IconPen       },
+  { label: "Home",       href: "/",      icon: IconHome      },
+  { label: "Work",       href: "/work",  icon: IconBriefcase },
+  { label: "Experience", href: "/craft", icon: IconPen       },
 ];
 
 const sidebarVariants: Variants = {
@@ -34,40 +34,69 @@ export default function DesktopSidebar() {
 
   return (
     <motion.aside
-      className="shrink-0 flex flex-col justify-between border-r border-black/8 px-8 py-10"
-      style={{ width: "280px" }}
+      className="shrink-0 flex flex-col px-7 py-10 min-h-full"
+      style={{
+        width: "280px",
+        background: "rgba(20, 18, 12, 0.72)",
+        backdropFilter: "blur(28px)",
+        WebkitBackdropFilter: "blur(28px)",
+        borderRight: "1px solid rgba(255,255,255,0.08)",
+        boxShadow: "inset -1px 0 0 rgba(255,255,255,0.04), 4px 0 32px rgba(0,0,0,0.12)",
+      }}
       variants={sidebarVariants}
       initial="hidden"
       animate="show"
     >
-      <div>
+      <div className="flex-1">
+
         {/* Avatar + contact */}
-        <motion.div className="flex items-center gap-3 mb-5" variants={slideIn}>
+        <motion.div className="flex items-center gap-3 mb-6" variants={slideIn}>
           <motion.div
-            className="w-12 h-12 rounded-2xl overflow-hidden relative shrink-0"
+            className="relative shrink-0"
             whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 360, damping: 18 } }}
           >
-            <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="140px" className="object-cover" />
+            <div className="rounded-2xl overflow-hidden relative"
+              style={{ width: 52, height: 52, boxShadow: "0 4px 16px rgba(0,0,0,0.3), 0 0 0 2px rgba(255,255,255,0.1)" }}>
+              <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="52px" className="object-cover" />
+            </div>
+            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-[#0D0C0A]" />
           </motion.div>
           <ContactButton phone={META.phone} />
         </motion.div>
 
         {/* Name / meta */}
-        <motion.div variants={slideIn}>
-          <h2 className="font-display text-[22px] font-extrabold tracking-[-0.02em] text-[#111111] leading-tight mb-1">
-            Talesdev
+        <motion.div variants={slideIn} className="mb-5">
+          <h2 className="font-display text-[23px] font-extrabold tracking-[-0.03em] text-white leading-tight mb-1.5">
+            Toba
           </h2>
-          <p className="font-body text-[13px] text-[#9A9A9A] mb-1">{META.role}</p>
-          <p className="font-body text-[12px] text-[#C8C8C8]">{META.location} · {META.timezone}</p>
+          <div className="inline-flex items-center gap-1.5 bg-[#FF5C00]/15 border border-[#FF5C00]/25 rounded-full px-2.5 py-1 mb-2">
+            <span className="w-1 h-1 rounded-full bg-[#FF5C00]" />
+            <p className="font-display text-[9.5px] font-bold tracking-[0.1em] uppercase text-[#FF5C00]">{META.role}</p>
+          </div>
+          <p className="font-body text-[11px] text-white/30 block">{META.location} · {META.timezone}</p>
         </motion.div>
 
         {/* Availability */}
-        <motion.div className="flex items-center gap-2 mt-5 mb-8" variants={slideIn}>
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="font-display text-[10px] font-bold tracking-widest uppercase text-green-600">
+        <motion.div
+          className="flex items-center gap-2 mb-7 w-fit px-3 py-1.5 rounded-full border"
+          style={{
+            background: "rgba(34,197,94,0.10)",
+            borderColor: "rgba(34,197,94,0.25)",
+          }}
+          variants={slideIn}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+          <span className="font-display text-[9.5px] font-bold tracking-widest uppercase text-green-400">
             Available for work
           </span>
         </motion.div>
+
+        {/* Divider */}
+        <motion.div
+          className="mb-5"
+          style={{ height: 1, background: "linear-gradient(to right, rgba(255,255,255,0.08), rgba(255,255,255,0.01))" }}
+          variants={slideIn}
+        />
 
         {/* Nav links */}
         <nav className="flex flex-col gap-1">
@@ -87,11 +116,16 @@ export default function DesktopSidebar() {
                 <Link
                   href={href}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-display text-[11px]
-                    font-bold tracking-[0.08em] uppercase no-underline transition-colors duration-150
-                    ${active
-                      ? "text-[#FF5C00] bg-[#FF5C00]/8"
-                      : "text-[#9A9A9A] hover:text-[#111111] hover:bg-black/4"
-                    }`}
+                    font-bold tracking-[0.08em] uppercase no-underline transition-all duration-150`}
+                  style={active ? {
+                    color: "#FF5C00",
+                    background: "rgba(255,92,0,0.12)",
+                    border: "1px solid rgba(255,92,0,0.20)",
+                    boxShadow: "0 2px 12px rgba(255,92,0,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  } : {
+                    color: "rgba(255,255,255,0.40)",
+                    border: "1px solid transparent",
+                  }}
                 >
                   <motion.span
                     animate={active ? { scale: 1.15 } : { scale: 1 }}
@@ -101,6 +135,13 @@ export default function DesktopSidebar() {
                     <Icon />
                   </motion.span>
                   {label}
+                  {active && (
+                    <motion.span
+                      layoutId="navDot"
+                      className="ml-auto w-1.5 h-1.5 rounded-full bg-[#FF5C00]"
+                      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                    />
+                  )}
                 </Link>
               </motion.div>
             );
@@ -108,34 +149,16 @@ export default function DesktopSidebar() {
         </nav>
       </div>
 
-      {/* Bottom: experience + copyright */}
-      <motion.div variants={slideIn}>
-        <div className="border border-black/8 rounded-2xl p-4 mb-6">
-          <p className="font-display text-[9px] font-bold tracking-[0.14em] uppercase text-[#C8C8C8] mb-3">
-            Experience
-          </p>
-          <div className="flex flex-col gap-2.5">
-            {TIMELINE.map(({ role, period }, i) => (
-              <motion.div
-                key={role}
-                className="flex items-center justify-between"
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.55 + i * 0.07, ease: "easeOut" }}
-              >
-                <span className="font-display text-[10px] font-extrabold tracking-[0.04em] uppercase text-[#111111]">
-                  {role}
-                </span>
-                <span className="font-body text-[10px] text-[#C8C8C8]">{period}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        <p className="font-display text-[12px] font-bold tracking-widest uppercase text-[#0D0C0A]">
+      {/* Bottom: copyright */}
+      <motion.div variants={slideIn} className="mt-8 pt-5"
+        style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+      >
+        <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase"
+          style={{ color: "rgba(255,255,255,0.18)" }}>
           2026 ✦ Talesoftoba
         </p>
       </motion.div>
+
     </motion.aside>
   );
 }

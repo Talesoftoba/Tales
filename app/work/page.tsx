@@ -40,13 +40,13 @@ function ProjectCard({ title, desc, tags, year, link, image, mobile }: {
         transition: { type: "spring", stiffness: 320, damping: 20 },
       }}
       whileTap={{ scale: 0.975, transition: { duration: 0.09 } }}
-      className="border border-black/8 rounded-2xl overflow-hidden cursor-pointer"
+      className="bg-[#0D0C0A] border border-black/8 rounded-2xl overflow-hidden cursor-pointer"
     >
       <Link
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group no-underline block"
+        className="group no-underline block h-full"
       >
         {image && (
           <div className={`relative w-full overflow-hidden ${mobile ? "h-40" : "h-44"}`}>
@@ -60,12 +60,12 @@ function ProjectCard({ title, desc, tags, year, link, image, mobile }: {
         )}
         <div className="p-5">
           <div className="flex items-start justify-between mb-2">
-            <p className={`font-display font-bold text-[#000000] group-hover:text-[#FF5C00] transition-colors duration-150 ${mobile ? "text-[14.5px]" : "text-[14px]"}`}>
+            <p className={`font-display font-bold text-white group-hover:text-[#FF5C00] transition-colors duration-150 ${mobile ? "text-[14.5px]" : "text-[14px]"}`}>
               {title}
             </p>
-            <span className="font-display text-[9px] font-bold uppercase text-[#1a1a1a] shrink-0 ml-2">{year}</span>
+            <span className="font-display text-[9px] font-bold uppercase text-white/40 shrink-0 ml-2">{year}</span>
           </div>
-          <p className="font-body text-[12.5px] text-[#1a1a1a] leading-relaxed mb-3">{desc}</p>
+          <p className="font-body text-[12.5px] text-white/70 leading-relaxed mb-3">{desc}</p>
           <div className="flex flex-wrap gap-1.5">
             {tags.map((tag) => (
               <motion.span
