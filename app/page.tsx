@@ -59,6 +59,12 @@ const LINKS = [
   { href: META.linkedin,          icon: <IconLinkedin />, label: "LinkedIn", target: true  },
 ];
 
+const chipClass = (mobile?: boolean) =>
+  `flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full
+  font-display font-bold tracking-[0.07em] uppercase text-[#000000] no-underline
+  hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-colors duration-150
+  ${mobile ? "px-4 py-2 text-[11px]" : "px-5 py-2.5 text-[11px]"}`;
+
 function SocialChip({ href, icon, label, target, mobile }: {
   href: string; icon: React.ReactNode; label: string; target: boolean; mobile?: boolean;
 }) {
@@ -72,13 +78,47 @@ function SocialChip({ href, icon, label, target, mobile }: {
         href={href}
         target={target ? "_blank" : undefined}
         rel={target ? "noopener noreferrer" : undefined}
-        className={`flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full
-          font-display font-bold tracking-[0.07em] uppercase text-[#000000] no-underline
-          hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-colors duration-150
-          ${mobile ? "px-4 py-2 text-[11px]" : "px-5 py-2.5 text-[11px]"}`}
+        className={chipClass(mobile)}
       >
         {icon}{label}
       </Link>
+    </motion.div>
+  );
+}
+
+function ViewResumeChip({ mobile }: { mobile?: boolean }) {
+  return (
+    <motion.div
+      variants={chipVariant}
+      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
+      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
+    >
+      <Link
+        href="/Samuel_Ayoola_CV-fullstack.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={chipClass(mobile)}
+      >
+        View Resume
+      </Link>
+    </motion.div>
+  );
+}
+
+function DownloadCVChip({ mobile }: { mobile?: boolean }) {
+  return (
+    <motion.div
+      variants={chipVariant}
+      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
+      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
+    >
+      <a
+        href="/Samuel_Ayoola_CV-fullstack.pdf"
+        download="Samuel_Ayoola_CV-fullstack.pdf"
+        className={chipClass(mobile)}
+      >
+        Download CV
+      </a>
     </motion.div>
   );
 }
@@ -149,6 +189,8 @@ export default function Home() {
           {LINKS.map(({ href, icon, label, target }) => (
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} mobile />
           ))}
+          <ViewResumeChip mobile />
+          <DownloadCVChip mobile />
         </motion.div>
 
         {/* Tech stack marquee */}
@@ -163,7 +205,7 @@ export default function Home() {
           <TechStackMarquee />
         </motion.section>
 
-        {/* Core Skills */}
+        {/* Core Skills — animate on mount, not scroll, so all 8 cards are visible */}
         <motion.section
           className="mb-6"
           variants={fadeUp} initial="hidden" animate="show"
@@ -205,6 +247,8 @@ export default function Home() {
           {LINKS.map(({ href, icon, label, target }) => (
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} />
           ))}
+          <ViewResumeChip />
+          <DownloadCVChip />
         </motion.div>
 
         {/* Tech stack marquee */}
