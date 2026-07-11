@@ -100,16 +100,17 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           className="hidden md:flex relative z-10 flex-col"
           style={{ width: "92vw", height: "100dvh", paddingTop: "2rem", paddingBottom: "2rem" }}
         >
-          {/* White card */}
+          {/* Card shell — dark background so it blends with the sidebar's corners; right panel carries its own white bg */}
           <motion.div
-            className="card-glow flex-1 min-h-0 w-full bg-white rounded-[26px] flex overflow-hidden"
+            className="card-glow flex-1 min-h-0 w-full rounded-[26px] flex overflow-hidden"
+            style={{ background: "rgba(10, 10, 11, 0.92)" }}
             initial={{ opacity: 0, y: 32, scale: 0.975 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* LEFT — static sidebar */}
             <motion.div
-              className="h-full"
+              className="h-full rounded-l-[26px] overflow-hidden"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.22, ease: "easeOut" }}
@@ -117,9 +118,9 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
               <DesktopSidebar />
             </motion.div>
 
-            {/* RIGHT — page content */}
+            {/* RIGHT — page content (white background lives here now) */}
             <motion.div
-              className="right-panel flex-1 min-w-0 px-10 py-10"
+              className="right-panel flex-1 min-w-0 px-10 py-10 bg-white"
               style={{ overflowY: "auto", overflowX: "hidden", scrollbarWidth: "none" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
