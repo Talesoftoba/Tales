@@ -37,11 +37,11 @@ export default function DesktopSidebar() {
       className="shrink-0 flex flex-col px-7 py-10 min-h-full"
       style={{
         width: "280px",
-        background: "rgba(210, 185, 155, 0.75)",
+        background: "rgba(10, 10, 11, 0.92)",
         backdropFilter: "blur(28px)",
         WebkitBackdropFilter: "blur(28px)",
-        borderRight: "1px solid rgba(0,0,0,0.06)",
-        boxShadow: "inset -1px 0 0 rgba(0,0,0,0.04), 4px 0 32px rgba(0,0,0,0.06)",
+        borderRight: "1px solid rgba(255,255,255,0.06)",
+        boxShadow: "inset -1px 0 0 rgba(255,255,255,0.03), 4px 0 32px rgba(0,0,0,0.35)",
       }}
       variants={sidebarVariants}
       initial="hidden"
@@ -56,7 +56,7 @@ export default function DesktopSidebar() {
             whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 360, damping: 18 } }}
           >
             <div className="rounded-2xl overflow-hidden relative"
-              style={{ width: 52, height: 52, boxShadow: "0 4px 16px rgba(0,0,0,0.14), 0 0 0 2px rgba(0,0,0,0.08)" }}>
+              style={{ width: 52, height: 52, boxShadow: "0 4px 16px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08)" }}>
               <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="52px" className="object-cover" />
             </div>
 
@@ -66,16 +66,16 @@ export default function DesktopSidebar() {
 
         {/* Name */}
         <motion.div variants={slideIn} className="mb-1.5">
-          <h2 className="font-display text-[26px] font-extrabold tracking-[-0.04em] leading-none text-[#1A0F0A]">
+          <h2 className="font-display text-[26px] font-extrabold tracking-[-0.04em] leading-none text-white">
             Toba
           </h2>
         </motion.div>
 
         {/* Role badge */}
         <motion.div variants={slideIn} className="mb-2.5">
-          <div className="inline-flex items-center gap-1.5 bg-[#FF5C00]/12 border border-[#FF5C00]/25 rounded-full px-2.5 py-1">
+          <div className="inline-flex items-center gap-1.5 bg-[#FF5C00]/15 border border-[#FF5C00]/30 rounded-full px-2.5 py-1">
             <span className="w-1 h-1 rounded-full bg-[#FF5C00]" />
-            <p className="font-display text-[9.5px] font-extrabold tracking-[0.12em] uppercase text-[#CC3D00]">
+            <p className="font-display text-[9.5px] font-extrabold tracking-[0.12em] uppercase text-[#FF7A2E]">
               {META.role}
             </p>
           </div>
@@ -83,7 +83,7 @@ export default function DesktopSidebar() {
 
         {/* Location */}
         <motion.div variants={slideIn} className="mb-6">
-          <p className="font-display text-[10.5px] font-semibold tracking-[0.06em] text-[#7A5C42]">
+          <p className="font-display text-[10.5px] font-semibold tracking-[0.06em] text-white/50">
             {META.location} · {META.timezone}
           </p>
         </motion.div>
@@ -92,13 +92,13 @@ export default function DesktopSidebar() {
         <motion.div
           className="flex items-center gap-2 mb-7 w-fit px-3 py-1.5 rounded-full border"
           style={{
-            background: "rgba(34,197,94,0.10)",
-            borderColor: "rgba(34,197,94,0.25)",
+            background: "rgba(34,197,94,0.14)",
+            borderColor: "rgba(34,197,94,0.30)",
           }}
           variants={slideIn}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse" />
-          <span className="font-display text-[9.5px] font-extrabold tracking-[0.12em] uppercase text-green-800">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+          <span className="font-display text-[9.5px] font-extrabold tracking-[0.12em] uppercase text-green-400">
             Available for work
           </span>
         </motion.div>
@@ -106,7 +106,7 @@ export default function DesktopSidebar() {
         {/* Divider */}
         <motion.div
           className="mb-5"
-          style={{ height: 1, background: "linear-gradient(to right, rgba(0,0,0,0.10), rgba(0,0,0,0.01))" }}
+          style={{ height: 1, background: "linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0.01))" }}
           variants={slideIn}
         />
 
@@ -130,12 +130,12 @@ export default function DesktopSidebar() {
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-display text-[11.5px]
                     font-extrabold tracking-[0.1em] uppercase no-underline transition-all duration-150`}
                   style={active ? {
-                    color: "#FF5C00",
-                    background: "rgba(255,92,0,0.10)",
-                    border: "1px solid rgba(255,92,0,0.18)",
-                    boxShadow: "0 2px 12px rgba(255,92,0,0.12), inset 0 1px 0 rgba(255,255,255,0.5)",
+                    color: "#FF7A2E",
+                    background: "rgba(255,92,0,0.14)",
+                    border: "1px solid rgba(255,92,0,0.28)",
+                    boxShadow: "0 2px 12px rgba(255,92,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
                   } : {
-                    color: "rgba(26,15,10,0.55)",
+                    color: "rgba(255,255,255,0.55)",
                     border: "1px solid transparent",
                   }}
                 >
@@ -163,9 +163,9 @@ export default function DesktopSidebar() {
 
       {/* Bottom: copyright */}
       <motion.div variants={slideIn} className="mt-8 pt-5"
-        style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}
+        style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
       >
-        <p className="font-display text-[9.5px] font-bold tracking-[0.2em] uppercase text-[#A08060]">
+        <p className="font-display text-[9.5px] font-bold tracking-[0.2em] uppercase text-white/40">
           2026 ✦ Talesoftoba
         </p>
       </motion.div>
