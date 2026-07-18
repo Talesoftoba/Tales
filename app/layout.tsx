@@ -11,7 +11,7 @@ const syne = Syne({
 const dm = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm",
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

@@ -33,3 +33,18 @@
     animation: rise 0.45s ease forwards;
   }
 }
+
+/* Mobile: slightly bolder and bigger text across the app */
+@media (max-width: 767px) {
+  html {
+    font-size: 17.5px; /* default browser base is 16px */
+  }
+
+  .font-body {
+    font-weight: 600;
+  }
+
+  .font-display {
+    font-weight: 700;
+  }
+}
