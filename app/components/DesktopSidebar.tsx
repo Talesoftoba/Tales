@@ -34,7 +34,7 @@ export default function DesktopSidebar() {
 
   return (
     <motion.aside
-      className="shrink-0 flex flex-col px-7 py-10 min-h-full"
+      className="relative shrink-0 flex flex-col px-7 py-10 min-h-full overflow-hidden"
       style={{
         width: "280px",
         background: "rgba(10, 10, 11, 0.92)",
@@ -47,10 +47,26 @@ export default function DesktopSidebar() {
       initial="hidden"
       animate="show"
     >
-      <div className="flex-1">
+      {/* Ambient glow — ties the sidebar into the same signature system as the main card */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 left-0 w-32 h-32 bg-[#FF5C00]/[0.08] blur-[70px] rounded-full"
+      />
+
+      {/* Faint grain texture, matches the main page overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.04] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
+
+      <div className="relative flex-1">
 
         {/* Avatar + contact */}
-        <motion.div className="flex items-center gap-3 mb-6" variants={slideIn}>
+        <motion.div className="flex items-center gap-3 mb-7" variants={slideIn}>
           <motion.div
             className="relative shrink-0"
             whileHover={{ scale: 1.08, transition: { type: "spring", stiffness: 360, damping: 18 } }}
@@ -59,7 +75,14 @@ export default function DesktopSidebar() {
               style={{ width: 52, height: 52, boxShadow: "0 4px 16px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08)" }}>
               <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="52px" className="object-cover" />
             </div>
-
+            {/* Presence dot — replaces the separate "available for work" pill */}
+            <span
+              className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+              style={{ background: "#0a0a0b" }}
+              title="Available for work"
+            >
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            </span>
           </motion.div>
           <ContactButton phone={META.phone} />
         </motion.div>
@@ -82,25 +105,10 @@ export default function DesktopSidebar() {
         </motion.div>
 
         {/* Location */}
-        <motion.div variants={slideIn} className="mb-6">
+        <motion.div variants={slideIn} className="mb-7">
           <p className="font-display text-[10.5px] font-semibold tracking-[0.06em] text-white/50">
             {META.location} · {META.timezone}
           </p>
-        </motion.div>
-
-        {/* Availability */}
-        <motion.div
-          className="flex items-center gap-2 mb-7 w-fit px-3 py-1.5 rounded-full border"
-          style={{
-            background: "rgba(34,197,94,0.14)",
-            borderColor: "rgba(34,197,94,0.30)",
-          }}
-          variants={slideIn}
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="font-display text-[9.5px] font-extrabold tracking-[0.12em] uppercase text-green-400">
-            Available for work
-          </span>
         </motion.div>
 
         {/* Divider */}
@@ -110,14 +118,15 @@ export default function DesktopSidebar() {
           variants={slideIn}
         />
 
-        {/* Nav links */}
-        <nav className="flex flex-col gap-1">
+        {/* Nav links — active state is a layoutId pill that slides between items */}
+        <nav className="relative flex flex-col gap-1">
           {NAV.map(({ label, href, icon: Icon }) => {
             const active = pathname === href;
             return (
               <motion.div
                 key={label}
                 variants={navItemVariant}
+                className="relative"
                 whileHover={
                   !active
                     ? { x: 4, transition: { type: "spring", stiffness: 400, damping: 20 } }
@@ -125,19 +134,23 @@ export default function DesktopSidebar() {
                 }
                 whileTap={{ scale: 0.96, transition: { duration: 0.08 } }}
               >
+                {active && (
+                  <motion.div
+                    layoutId="navActive"
+                    className="absolute inset-0 rounded-xl"
+                    style={{
+                      background: "rgba(255,92,0,0.14)",
+                      border: "1px solid rgba(255,92,0,0.28)",
+                      boxShadow: "0 2px 12px rgba(255,92,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
+                    }}
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
                 <Link
                   href={href}
-                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-display text-[11.5px]
-                    font-extrabold tracking-[0.1em] uppercase no-underline transition-all duration-150`}
-                  style={active ? {
-                    color: "#FF7A2E",
-                    background: "rgba(255,92,0,0.14)",
-                    border: "1px solid rgba(255,92,0,0.28)",
-                    boxShadow: "0 2px 12px rgba(255,92,0,0.15), inset 0 1px 0 rgba(255,255,255,0.06)",
-                  } : {
-                    color: "rgba(255,255,255,0.55)",
-                    border: "1px solid transparent",
-                  }}
+                  className="relative flex items-center gap-3 px-4 py-2.5 rounded-xl font-display text-[11.5px]
+                    font-extrabold tracking-[0.1em] uppercase no-underline transition-colors duration-150"
+                  style={{ color: active ? "#FF7A2E" : "rgba(255,255,255,0.55)" }}
                 >
                   <motion.span
                     animate={active ? { scale: 1.15 } : { scale: 1 }}
@@ -161,12 +174,15 @@ export default function DesktopSidebar() {
         </nav>
       </div>
 
-      {/* Bottom: copyright */}
-      <motion.div variants={slideIn} className="mt-8 pt-5"
+      {/* Bottom: footer */}
+      <motion.div variants={slideIn} className="relative mt-8 pt-5"
         style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
       >
         <p className="font-display text-[9.5px] font-bold tracking-[0.2em] uppercase text-white/40">
-          2026 ✦ Talesoftoba
+          Talesoftoba
+        </p>
+        <p className="font-body text-[10px] text-white/25 mt-0.5">
+          © 2026 · built with Next.js
         </p>
       </motion.div>
 
