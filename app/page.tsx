@@ -29,6 +29,12 @@ const skillCardVariant: Variants = {
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 24 } },
 };
 
+// Split-line headline reveal — each line clips and rises from below
+const headlineLine: Variants = {
+  hidden: { y: "110%" },
+  show:   { y: "0%", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
+};
+
 // ── Skills data ──────────────────────────────────────────────────────────────
 
 const SKILLS = [
@@ -49,6 +55,30 @@ function Label({ children }: { children: React.ReactNode }) {
     <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#888880]">
       {children}
     </p>
+  );
+}
+
+// Ambient grain texture — sits behind everything, very low opacity
+function GrainOverlay() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] mix-blend-multiply"
+      style={{
+        backgroundImage:
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+      }}
+    />
+  );
+}
+
+// Soft orange glow anchor — place behind a headline
+function HeroGlow({ className = "" }: { className?: string }) {
+  return (
+    <div
+      aria-hidden
+      className={`absolute bg-[#FF5C00]/[0.12] blur-[100px] rounded-full pointer-events-none z-0 ${className}`}
+    />
   );
 }
 
@@ -105,23 +135,42 @@ function ViewResumeChip({ mobile }: { mobile?: boolean }) {
   );
 }
 
-
-
+// Skill card with a cursor-reactive orange glow on hover.
+// Pointer position is tracked via CSS custom properties (--x, --y) set on mousemove,
+// consumed by the radial-gradient in the glow layer below.
 function SkillCard({ category, chips }: { category: string; chips: string[] }) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+  };
+
   return (
     <motion.div
       variants={skillCardVariant}
-      className="bg-[#0D0C0A] border border-white/[0.07] rounded-2xl overflow-hidden"
+      onMouseMove={handleMouseMove}
+      whileHover={{ borderColor: "rgba(255,92,0,0.4)" }}
+      className="group relative bg-[#0D0C0A] border border-white/[0.07] rounded-2xl overflow-hidden transition-colors"
     >
+      {/* Cursor-reactive glow */}
+      <div
+        aria-hidden
+        className="absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(180px circle at var(--x, 50%) var(--y, 0%), rgba(255,92,0,0.08), transparent 70%)",
+        }}
+      />
+
       {/* Card header */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06]">
+      <div className="relative flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06]">
         <p className="font-display text-[10px] font-bold tracking-[0.16em] uppercase text-[#FF5C00]">
           {category}
         </p>
         <span className="w-1.5 h-1.5 rounded-full bg-[#FF5C00]/50" />
       </div>
       {/* Chips */}
-      <div className="px-5 py-4 flex flex-wrap gap-2">
+      <div className="relative px-5 py-4 flex flex-wrap gap-2">
         {chips.map((chip) => (
           <span
             key={chip}
@@ -141,6 +190,7 @@ function SkillCard({ category, chips }: { category: string; chips: string[] }) {
 export default function Home() {
   return (
     <CardShell>
+      <GrainOverlay />
 
       {/* ════════════  MOBILE  ════════════ */}
       <div className="md:hidden">
@@ -156,27 +206,41 @@ export default function Home() {
           </div>
         </motion.section>
 
-      <motion.h1
-  className="font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#000000] mb-5 text-[clamp(30px,8.5vw,40px)]"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
->
-  I build fast, design, ship clean —
-  <span className="text-[#FF5C00]"> and it performs.</span>
-</motion.h1>
+        <div className="relative">
+          <HeroGlow className="-top-16 -left-8 w-[280px] h-[280px]" />
 
-<motion.p
-  className="max-w-xl mb-8 font-body text-[15px] leading-7 text-[#4B4B4B]"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, delay: 0.2 }}
->
-  I&apos;m a software developer passionate about building intuitive, reliable, and
-  impactful digital products that solve real-world problems. I enjoy turning
-  ideas into polished applications with a strong emphasis on clean design,
-  performance, scalability, and user experience.
-</motion.p>
+          <h1 className="relative font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#000000] mb-5 text-[clamp(30px,8.5vw,40px)]">
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                variants={headlineLine} initial="hidden" animate="show"
+              >
+                I build fast, design, ship clean —
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                variants={headlineLine} initial="hidden" animate="show"
+                transition={{ delay: 0.1 }}
+              >
+                <span className="text-[#FF5C00]">and it performs.</span>
+              </motion.span>
+            </span>
+          </h1>
+        </div>
+
+        <motion.p
+          className="max-w-xl mb-8 font-body text-[15px] leading-7 text-[#4B4B4B]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          I&apos;m a software developer passionate about building intuitive, reliable, and
+          impactful digital products that solve real-world problems. I enjoy turning
+          ideas into polished applications with a strong emphasis on clean design,
+          performance, scalability, and user experience.
+        </motion.p>
 
         <motion.div
           className="flex items-center gap-2 flex-wrap mb-10"
@@ -186,7 +250,6 @@ export default function Home() {
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} mobile />
           ))}
           <ViewResumeChip mobile />
-        
         </motion.div>
 
         {/* Tech stack marquee */}
@@ -225,28 +288,44 @@ export default function Home() {
       {/* ════════════  DESKTOP  ════════════ */}
       <div className="hidden md:block">
 
-     <motion.h1
-  className="font-display font-extrabold leading-[1.02] tracking-[-0.04em] text-[#000000] mb-5"
-  style={{ fontSize: "clamp(36px, 3.5vw, 58px)" }}
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
->
-  I build fast, design,<br />ship clean —
-  <span className="text-[#FF5C00]"> and it performs.</span>
-</motion.h1>
+        <div className="relative">
+          <HeroGlow className="-top-20 -left-10 w-[420px] h-[420px]" />
 
-<motion.p
-  className="max-w-2xl mb-10 font-body text-[18px] leading-8 text-[#4B4B4B]"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6, delay: 0.2 }}
->
-  I&apos;m a software developer passionate about building intuitive, reliable, and
-  impactful digital products that solve real-world problems. I enjoy turning
-  ideas into polished applications with a strong emphasis on clean design,
-  performance, scalability, and user experience.
-</motion.p>
+          <h1
+            className="relative font-display font-extrabold leading-[1.02] tracking-[-0.04em] text-[#000000] mb-5"
+            style={{ fontSize: "clamp(36px, 3.5vw, 58px)" }}
+          >
+           <span className="block overflow-hidden pb-[0.15em] -mb-[0.15em]">
+  <motion.span
+    className="block"
+    variants={headlineLine} initial="hidden" animate="show"
+  >
+    I build fast, design,
+  </motion.span>
+</span>
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                variants={headlineLine} initial="hidden" animate="show"
+                transition={{ delay: 0.1 }}
+              >
+                ship clean — <span className="text-[#FF5C00]">and it performs.</span>
+              </motion.span>
+            </span>
+          </h1>
+        </div>
+
+        <motion.p
+          className="max-w-2xl mb-10 font-body text-[18px] leading-8 text-[#4B4B4B]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          I&apos;m a software developer passionate about building intuitive, reliable, and
+          impactful digital products that solve real-world problems. I enjoy turning
+          ideas into polished applications with a strong emphasis on clean design,
+          performance, scalability, and user experience.
+        </motion.p>
 
         <motion.div
           className="flex items-center gap-2 flex-wrap mb-14"
@@ -256,7 +335,6 @@ export default function Home() {
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} />
           ))}
           <ViewResumeChip />
-        
         </motion.div>
 
         {/* Tech stack marquee */}
