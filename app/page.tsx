@@ -55,6 +55,25 @@ const SKILLS = [
 
 const ROTATING_ROLES = ["scalable APIs", "clean UIs", "payment systems", "real-time features"];
 
+// ── Small inline icons (no external icon font dependency) ──────────────────
+
+function ChevronDownIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function ArrowUpRightIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
+    </svg>
+  );
+}
+
 // ── Shared pieces ────────────────────────────────────────────────────────────
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -144,6 +163,29 @@ function FadedMarquee({ bg }: { bg: string }) {
   );
 }
 
+// Nudges the visitor to scroll — sits under the contact row
+function ScrollCue() {
+  return (
+    <motion.div
+      className="flex flex-col items-center gap-1.5 mb-10 md:mb-14"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1, duration: 0.6 }}
+    >
+      <span className="font-display text-[9px] font-bold tracking-[0.2em] uppercase text-[#888880]">
+        Scroll
+      </span>
+      <motion.div
+        className="text-[#888880]"
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <ChevronDownIcon />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 const LINKS = [
   { href: META.twitter,           icon: <IconX />,        label: "Twitter",  target: true  },
   { href: `mailto:${META.email}`, icon: <IconMail />,     label: "Email",    target: false },
@@ -151,47 +193,50 @@ const LINKS = [
   { href: META.linkedin,          icon: <IconLinkedin />, label: "LinkedIn", target: true  },
 ];
 
-const chipClass = (mobile?: boolean) =>
-  `flex items-center gap-2 bg-[#F5F0E8] border border-black/[0.14] rounded-full
-  font-display font-bold tracking-[0.07em] uppercase text-[#000000] no-underline
-  hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/4 transition-colors duration-150
-  ${mobile ? "px-4 py-2 text-[11px]" : "px-5 py-2.5 text-[11px]"}`;
-
-function SocialChip({ href, icon, label, target, mobile }: {
-  href: string; icon: React.ReactNode; label: string; target: boolean; mobile?: boolean;
+// Small icon-only circle for a social link — quiet, grouped together
+function SocialIconLink({ href, icon, label, target }: {
+  href: string; icon: React.ReactNode; label: string; target: boolean;
 }) {
   return (
     <motion.div
       variants={chipVariant}
-      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
-      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
+      whileHover={{ scale: 1.1, y: -2, transition: { type: "spring", stiffness: 400, damping: 16 } }}
+      whileTap={{ scale: 0.9, transition: { duration: 0.08 } }}
     >
       <Link
         href={href}
         target={target ? "_blank" : undefined}
         rel={target ? "noopener noreferrer" : undefined}
-        className={chipClass(mobile)}
+        aria-label={label}
+        className="flex items-center justify-center w-10 h-10 rounded-full
+          bg-[#F5F0E8] border border-black/[0.14] text-[#000000]
+          hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/5
+          transition-colors duration-150"
       >
-        {icon}{label}
+        {icon}
       </Link>
     </motion.div>
   );
 }
 
-function ViewResumeChip({ mobile }: { mobile?: boolean }) {
+// Standalone primary CTA — the one action that matters most, filled and distinct
+function ResumeButton({ mobile }: { mobile?: boolean }) {
   return (
     <motion.div
       variants={chipVariant}
-      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
-      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
+      whileHover={{ scale: 1.03, y: -2, transition: { type: "spring", stiffness: 400, damping: 16 } }}
+      whileTap={{ scale: 0.96, transition: { duration: 0.08 } }}
     >
       <Link
         href="/Samuel_Ayoola_CV-fullstack.pdf"
         target="_blank"
         rel="noopener noreferrer"
-        className={chipClass(mobile)}
+        className={`flex items-center gap-2 bg-[#FF5C00] text-white rounded-full
+          font-display font-bold tracking-[0.07em] uppercase no-underline
+          hover:bg-[#e65200] transition-colors duration-150
+          ${mobile ? "px-5 py-2 text-[11px]" : "px-6 py-2.5 text-[11px]"}`}
       >
-        View Resume
+        View resume <ArrowUpRightIcon />
       </Link>
     </motion.div>
   );
@@ -306,14 +351,19 @@ export default function Home() {
         </motion.p>
 
         <motion.div
-          className="flex items-center gap-2 flex-wrap mb-10"
+          className="flex items-center gap-3 flex-wrap mb-4"
           variants={stagger(0.06)} initial="hidden" animate="show"
         >
-          {LINKS.map(({ href, icon, label, target }) => (
-            <SocialChip key={label} href={href} icon={icon} label={label} target={target} mobile />
-          ))}
-          <ViewResumeChip mobile />
+          <div className="flex items-center gap-2">
+            {LINKS.map(({ href, icon, label, target }) => (
+              <SocialIconLink key={label} href={href} icon={icon} label={label} target={target} />
+            ))}
+          </div>
+          <span className="w-px h-6 bg-black/10 mx-1" />
+          <ResumeButton mobile />
         </motion.div>
+
+        <ScrollCue />
 
         {/* Tech stack marquee */}
         <motion.section
@@ -391,14 +441,19 @@ export default function Home() {
         </motion.p>
 
         <motion.div
-          className="flex items-center gap-2 flex-wrap mb-14"
+          className="flex items-center gap-3 flex-wrap mb-4"
           variants={stagger(0.07)} initial="hidden" animate="show"
         >
-          {LINKS.map(({ href, icon, label, target }) => (
-            <SocialChip key={label} href={href} icon={icon} label={label} target={target} />
-          ))}
-          <ViewResumeChip />
+          <div className="flex items-center gap-2">
+            {LINKS.map(({ href, icon, label, target }) => (
+              <SocialIconLink key={label} href={href} icon={icon} label={label} target={target} />
+            ))}
+          </div>
+          <span className="w-px h-6 bg-black/10 mx-1" />
+          <ResumeButton />
         </motion.div>
+
+        <ScrollCue />
 
         {/* Tech stack marquee */}
         <motion.section
