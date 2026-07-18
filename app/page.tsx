@@ -1,10 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import CardShell from "./components/CardShell";
 import { IconX, IconMail, IconGithub, IconLinkedin } from "./components/icons";
 import { META } from "./lib/data";
-import { motion, type Variants } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import TechStackMarquee from "./components/TechStackMarquee";
 
 // ── Variants ────────────────────────────────────────────────────────────────
@@ -35,6 +36,10 @@ const headlineLine: Variants = {
   show:   { y: "0%", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 
+// Every overflow-hidden wrapper around a headline line needs this so
+// descenders (g, y, p, q) don't get clipped by the reveal mask.
+const lineWrapClass = "block overflow-hidden pb-[0.15em] -mb-[0.15em]";
+
 // ── Skills data ──────────────────────────────────────────────────────────────
 
 const SKILLS = [
@@ -47,6 +52,8 @@ const SKILLS = [
   { category: "Styling",   chips: ["Tailwind CSS", "Framer Motion", "CSS3", "HTML5"] },
   { category: "DevOps",    chips: ["Git", "GitHub Actions", "Vercel CI/CD"] },
 ];
+
+const ROTATING_ROLES = ["scalable APIs", "clean UIs", "payment systems", "real-time features"];
 
 // ── Shared pieces ────────────────────────────────────────────────────────────
 
@@ -79,6 +86,61 @@ function HeroGlow({ className = "" }: { className?: string }) {
       aria-hidden
       className={`absolute bg-[#FF5C00]/[0.12] blur-[100px] rounded-full pointer-events-none z-0 ${className}`}
     />
+  );
+}
+
+// Signature frame — bracket ticks in each corner of the whole card
+function CornerTicks() {
+  const tick = "absolute w-3 h-3 border-[#FF5C00]/40 pointer-events-none z-10";
+  return (
+    <>
+      <span className={`${tick} top-4 left-4 border-t-2 border-l-2`} aria-hidden />
+      <span className={`${tick} top-4 right-4 border-t-2 border-r-2`} aria-hidden />
+      <span className={`${tick} bottom-4 left-4 border-b-2 border-l-2`} aria-hidden />
+      <span className={`${tick} bottom-4 right-4 border-b-2 border-r-2`} aria-hidden />
+    </>
+  );
+}
+
+// Cycles through short role fragments inside the about paragraph
+function RotatingRole() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((n) => (n + 1) % ROTATING_ROLES.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="relative inline-block text-[#FF5C00] font-medium">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={ROTATING_ROLES[i]}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.3 }}
+          className="inline-block"
+        >
+          {ROTATING_ROLES[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+// Fades the left/right edges of the tech stack marquee into the page background
+function FadedMarquee({ bg }: { bg: string }) {
+  return (
+    <div className="relative">
+      <div
+        className="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none"
+        style={{ background: `linear-gradient(to right, ${bg}, transparent)` }}
+      />
+      <div
+        className="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none"
+        style={{ background: `linear-gradient(to left, ${bg}, transparent)` }}
+      />
+      <TechStackMarquee />
+    </div>
   );
 }
 
@@ -191,6 +253,7 @@ export default function Home() {
   return (
     <CardShell>
       <GrainOverlay />
+      <CornerTicks />
 
       {/* ════════════  MOBILE  ════════════ */}
       <div className="md:hidden">
@@ -210,7 +273,7 @@ export default function Home() {
           <HeroGlow className="-top-16 -left-8 w-[280px] h-[280px]" />
 
           <h1 className="relative font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#000000] mb-5 text-[clamp(30px,8.5vw,40px)]">
-            <span className="block overflow-hidden">
+            <span className={lineWrapClass}>
               <motion.span
                 className="block"
                 variants={headlineLine} initial="hidden" animate="show"
@@ -218,7 +281,7 @@ export default function Home() {
                 I build fast, design, ship clean —
               </motion.span>
             </span>
-            <span className="block overflow-hidden">
+            <span className={lineWrapClass}>
               <motion.span
                 className="block"
                 variants={headlineLine} initial="hidden" animate="show"
@@ -231,14 +294,14 @@ export default function Home() {
         </div>
 
         <motion.p
-          className="max-w-xl mb-8 font-body text-[15px] leading-7 text-[#4B4B4B]"
+          className="max-w-xl mb-8 font-body text-[15px] leading-7 text-[#4B4B4B] border-l-2 border-[#FF5C00]/30 pl-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           I&apos;m a software developer passionate about building intuitive, reliable, and
-          impactful digital products that solve real-world problems. I enjoy turning
-          ideas into polished applications with a strong emphasis on clean design,
+          impactful digital products that solve real-world problems. I currently spend most
+          of my time on <RotatingRole />, with a strong emphasis on clean design,
           performance, scalability, and user experience.
         </motion.p>
 
@@ -261,7 +324,7 @@ export default function Home() {
             <Label>Tech Stack</Label>
             <div className="flex-1 h-px bg-black/[0.06]" />
           </div>
-          <TechStackMarquee />
+          <FadedMarquee bg="#F5F0E8" />
         </motion.section>
 
         {/* Core Skills — animate on mount, not scroll, so all 8 cards are visible */}
@@ -295,15 +358,15 @@ export default function Home() {
             className="relative font-display font-extrabold leading-[1.02] tracking-[-0.04em] text-[#000000] mb-5"
             style={{ fontSize: "clamp(36px, 3.5vw, 58px)" }}
           >
-           <span className="block overflow-hidden pb-[0.15em] -mb-[0.15em]">
-  <motion.span
-    className="block"
-    variants={headlineLine} initial="hidden" animate="show"
-  >
-    I build fast, design,
-  </motion.span>
-</span>
-            <span className="block overflow-hidden">
+            <span className={lineWrapClass}>
+              <motion.span
+                className="block"
+                variants={headlineLine} initial="hidden" animate="show"
+              >
+                I build fast, design,
+              </motion.span>
+            </span>
+            <span className={lineWrapClass}>
               <motion.span
                 className="block"
                 variants={headlineLine} initial="hidden" animate="show"
@@ -316,14 +379,14 @@ export default function Home() {
         </div>
 
         <motion.p
-          className="max-w-2xl mb-10 font-body text-[18px] leading-8 text-[#4B4B4B]"
+          className="max-w-2xl mb-10 font-body text-[18px] leading-8 text-[#4B4B4B] border-l-2 border-[#FF5C00]/30 pl-5"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           I&apos;m a software developer passionate about building intuitive, reliable, and
-          impactful digital products that solve real-world problems. I enjoy turning
-          ideas into polished applications with a strong emphasis on clean design,
+          impactful digital products that solve real-world problems. I currently spend most
+          of my time on <RotatingRole />, with a strong emphasis on clean design,
           performance, scalability, and user experience.
         </motion.p>
 
@@ -346,7 +409,7 @@ export default function Home() {
             <Label>Tech Stack</Label>
             <div className="flex-1 h-px bg-black/[0.06]" />
           </div>
-          <TechStackMarquee />
+          <FadedMarquee bg="#F5F0E8" />
         </motion.section>
 
         {/* Core Skills */}
