@@ -42,21 +42,54 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         >
           {/* Top bar */}
           <motion.div
-            className="shrink-0 flex items-center justify-between px-1 pb-3"
+            className="shrink-0 flex items-center justify-between gap-3 px-1 pb-3"
             initial={{ opacity: 0, y: -14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            <div className="w-11 h-11 rounded-xl overflow-hidden relative shrink-0">
-              <Image src="/avatar2.jpg" alt="Avatar"
-               quality={100}
-                fill sizes="44px"
-               className="object-cover" />
+            {/* Avatar + green dot (kept) */}
+            <div className="flex-1 flex justify-start">
+              <div className="relative shrink-0">
+                <div
+                  className="w-11 h-11 rounded-xl overflow-hidden relative"
+                  style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.25), 0 0 0 2px rgba(255,255,255,0.08)" }}
+                >
+                  <Image
+                    src="/avatar2.jpg"
+                    alt="Avatar"
+                    quality={100}
+                    fill
+                    sizes="44px"
+                    className="object-cover"
+                  />
+                </div>
+                <span
+                  className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                  style={{ background: "#F5F0E8" }}
+                >
+                  <span className="relative flex w-2 h-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                    <span className="relative inline-flex rounded-full w-2 h-2 bg-green-500" />
+                  </span>
+                </span>
+              </div>
             </div>
-            <ContactButton phone={META.phone} />
-            <div className="text-right select-none pointer-events-none">
-              <p className="font-display text-[12px] font-extrabold tracking-[0.15em] uppercase text-[#000000]">Talesoftoba</p>
-              <p className="font-display text-[8px] font-bold tracking-[0.14em] uppercase text-[#1a1a1a]">Portfolio ✦ 2026</p>
+
+            {/* Contact button — true center column */}
+            <div className="shrink-0">
+              <ContactButton phone={META.phone} />
+            </div>
+
+            {/* Name block */}
+            <div className="flex-1 flex justify-end">
+              <div className="text-right select-none pointer-events-none shrink-0 min-w-0">
+                <p className="font-display text-[12.5px] font-bold tracking-[0.08em] uppercase text-black whitespace-nowrap leading-tight">
+                  Talesoftoba
+                </p>
+                <p className="font-display text-[13px] font-bold tracking-[0.06em] text-[#3a3a3a] whitespace-nowrap leading-tight mt-0.5">
+                  © 2026
+                </p>
+              </div>
             </div>
           </motion.div>
 
