@@ -172,15 +172,27 @@ export default function Home() {
           </div>
         </motion.section>
 
-        <motion.h1
-          className="font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#000000] mb-8 text-[clamp(30px,8.5vw,40px)]"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-        >
-          I build fast, design, ship clean —
-          <span className="text-[#FF5C00]"> and it performs.</span>
-        </motion.h1>
+      <motion.h1
+  className="font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#000000] mb-5 text-[clamp(30px,8.5vw,40px)]"
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+>
+  I build fast, design, ship clean —
+  <span className="text-[#FF5C00]"> and it performs.</span>
+</motion.h1>
+
+<motion.p
+  className="max-w-xl mb-8 font-body text-[15px] leading-7 text-[#4B4B4B]"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+>
+  I&apos;m a software developer passionate about building intuitive, reliable, and
+  impactful digital products that solve real-world problems. I enjoy turning
+  ideas into polished applications with a strong emphasis on clean design,
+  performance, scalability, and user experience.
+</motion.p>
 
         <motion.div
           className="flex items-center gap-2 flex-wrap mb-10"
@@ -229,16 +241,28 @@ export default function Home() {
       {/* ════════════  DESKTOP  ════════════ */}
       <div className="hidden md:block">
 
-        <motion.h1
-          className="font-display font-extrabold leading-[1.02] tracking-[-0.04em] text-[#000000] mb-10"
-          style={{ fontSize: "clamp(36px, 3.5vw, 58px)" }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-        >
-          I build fast, design,<br />ship clean —
-          <span className="text-[#FF5C00]"> and it performs.</span>
-        </motion.h1>
+     <motion.h1
+  className="font-display font-extrabold leading-[1.02] tracking-[-0.04em] text-[#000000] mb-5"
+  style={{ fontSize: "clamp(36px, 3.5vw, 58px)" }}
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+>
+  I build fast, design,<br />ship clean —
+  <span className="text-[#FF5C00]"> and it performs.</span>
+</motion.h1>
+
+<motion.p
+  className="max-w-2xl mb-10 font-body text-[18px] leading-8 text-[#4B4B4B]"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+>
+  I&apos;m a software developer passionate about building intuitive, reliable, and
+  impactful digital products that solve real-world problems. I enjoy turning
+  ideas into polished applications with a strong emphasis on clean design,
+  performance, scalability, and user experience.
+</motion.p>
 
         <motion.div
           className="flex items-center gap-2 flex-wrap mb-14"
