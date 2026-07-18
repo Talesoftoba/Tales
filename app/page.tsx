@@ -55,6 +55,11 @@ const SKILLS = [
 
 const ROTATING_ROLES = ["scalable APIs", "clean UIs", "payment systems", "real-time features"];
 
+// Background color for the tech stack panel — matches the dark skill-card
+// tone (#0D0C0A) so the two "data" sections read as a matched pair. The
+// marquee fade gradient below uses this same value so its edges don't show a seam.
+const TECH_PANEL_BG = "#0D0C0A";
+
 // ── Small inline icons (no external icon font dependency) ──────────────────
 
 function ChevronDownIcon() {
@@ -81,6 +86,17 @@ function Label({ children }: { children: React.ReactNode }) {
     <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#888880]">
       {children}
     </p>
+  );
+}
+
+// Section header with a hairline and a trailing count/context detail
+function SectionHeader({ label, meta }: { label: string; meta: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-5">
+      <Label>{label}</Label>
+      <div className="flex-1 h-px bg-black/[0.06]" />
+      <span className="font-display text-[10px] font-bold text-[#888880]">{meta}</span>
+    </div>
   );
 }
 
@@ -146,7 +162,7 @@ function RotatingRole() {
   );
 }
 
-// Fades the left/right edges of the tech stack marquee into the page background
+// Fades the left/right edges of the tech stack marquee into its panel background
 function FadedMarquee({ bg }: { bg: string }) {
   return (
     <div className="relative">
@@ -159,6 +175,18 @@ function FadedMarquee({ bg }: { bg: string }) {
         style={{ background: `linear-gradient(to left, ${bg}, transparent)` }}
       />
       <TechStackMarquee />
+    </div>
+  );
+}
+
+// Frames the marquee as its own panel/strip rather than floating on the page
+function TechStackPanel() {
+  return (
+    <div
+      className="relative rounded-2xl border border-white/[0.07] py-5"
+      style={{ backgroundColor: TECH_PANEL_BG }}
+    >
+      <FadedMarquee bg={TECH_PANEL_BG} />
     </div>
   );
 }
@@ -242,10 +270,9 @@ function ResumeButton({ mobile }: { mobile?: boolean }) {
   );
 }
 
-// Skill card with a cursor-reactive orange glow on hover.
-// Pointer position is tracked via CSS custom properties (--x, --y) set on mousemove,
-// consumed by the radial-gradient in the glow layer below.
-function SkillCard({ category, chips }: { category: string; chips: string[] }) {
+// Skill card with a cursor-reactive orange glow on hover, plus an index number
+// so a long list of 8 identical cards still gives the reader a sense of place.
+function SkillCard({ category, chips, index }: { category: string; chips: string[]; index: number }) {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
@@ -271,9 +298,14 @@ function SkillCard({ category, chips }: { category: string; chips: string[] }) {
 
       {/* Card header */}
       <div className="relative flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06]">
-        <p className="font-display text-[10px] font-bold tracking-[0.16em] uppercase text-[#FF5C00]">
-          {category}
-        </p>
+        <div className="flex items-center gap-2.5">
+          <span className="font-mono text-[10px] text-white/25">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <p className="font-display text-[10px] font-bold tracking-[0.16em] uppercase text-[#FF5C00]">
+            {category}
+          </p>
+        </div>
         <span className="w-1.5 h-1.5 rounded-full bg-[#FF5C00]/50" />
       </div>
       {/* Chips */}
@@ -367,14 +399,11 @@ export default function Home() {
 
         {/* Tech stack marquee */}
         <motion.section
-          className="mb-12 -mx-7"
+          className="mb-12"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="px-7 mb-4 flex items-center gap-3">
-            <Label>Tech Stack</Label>
-            <div className="flex-1 h-px bg-black/[0.06]" />
-          </div>
-          <FadedMarquee bg="#F5F0E8" />
+          <SectionHeader label="Tech Stack" meta="always learning" />
+          <TechStackPanel />
         </motion.section>
 
         {/* Core Skills — animate on mount, not scroll, so all 8 cards are visible */}
@@ -382,16 +411,13 @@ export default function Home() {
           className="mb-6"
           variants={fadeUp} initial="hidden" animate="show"
         >
-          <div className="flex items-center gap-3 mb-5">
-            <Label>Core Skills</Label>
-            <div className="flex-1 h-px bg-black/[0.06]" />
-          </div>
+          <SectionHeader label="Core Skills" meta={`${SKILLS.length} areas`} />
           <motion.div
-            className="flex flex-col gap-2.5"
+            className="grid grid-cols-1 gap-2.5"
             variants={stagger(0.07)} initial="hidden" animate="show"
           >
-            {SKILLS.map(({ category, chips }) => (
-              <SkillCard key={category} category={category} chips={chips} />
+            {SKILLS.map(({ category, chips }, i) => (
+              <SkillCard key={category} category={category} chips={chips} index={i} />
             ))}
           </motion.div>
         </motion.section>
@@ -457,30 +483,24 @@ export default function Home() {
 
         {/* Tech stack marquee */}
         <motion.section
-          className="mb-14 -mx-10"
+          className="mb-14"
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="px-10 mb-4 flex items-center gap-3">
-            <Label>Tech Stack</Label>
-            <div className="flex-1 h-px bg-black/[0.06]" />
-          </div>
-          <FadedMarquee bg="#F5F0E8" />
+          <SectionHeader label="Tech Stack" meta="always learning" />
+          <TechStackPanel />
         </motion.section>
 
         {/* Core Skills */}
         <motion.section
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0 }}
         >
-          <div className="flex items-center gap-3 mb-5">
-            <Label>Core Skills</Label>
-            <div className="flex-1 h-px bg-black/[0.06]" />
-          </div>
+          <SectionHeader label="Core Skills" meta={`${SKILLS.length} areas`} />
           <motion.div
-            className="flex flex-col gap-2.5"
+            className="grid grid-cols-1 md:grid-cols-2 gap-2.5"
             variants={stagger(0.07)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0 }}
           >
-            {SKILLS.map(({ category, chips }) => (
-              <SkillCard key={category} category={category} chips={chips} />
+            {SKILLS.map(({ category, chips }, i) => (
+              <SkillCard key={category} category={category} chips={chips} index={i} />
             ))}
           </motion.div>
         </motion.section>
