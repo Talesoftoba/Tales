@@ -23,15 +23,68 @@ const cardVariant: Variants = {
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 24 } },
 };
 
+// Whole-headline reveal — the wrapper clips, the inner span slides up into view.
+// pb/-mb keeps descenders (g, y, p, q) from getting clipped by the mask.
+const headlineReveal: Variants = {
+  hidden: { y: "100%" },
+  show:   { y: "0%", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
+};
+
+// ── Shared page chrome (matches the home page) ──────────────────────────────
+// NOTE: this is duplicated across page.tsx / work/page.tsx / craft/page.tsx.
+// Worth extracting into e.g. components/PageChrome.tsx if you want a single
+// source of truth — happy to do that split if you'd like.
+
+function GrainOverlay() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-0 opacity-[0.035] mix-blend-multiply"
+      style={{
+        backgroundImage:
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+      }}
+    />
+  );
+}
+
+function HeroGlow({ className = "" }: { className?: string }) {
+  return (
+    <div
+      aria-hidden
+      className={`absolute bg-[#FF5C00]/[0.12] blur-[100px] rounded-full pointer-events-none z-0 ${className}`}
+    />
+  );
+}
+
+function CornerTicks() {
+  const tick = "absolute w-3 h-3 border-[#FF5C00]/40 pointer-events-none z-10";
+  return (
+    <>
+      <span className={`${tick} top-4 left-4 border-t-2 border-l-2`} aria-hidden />
+      <span className={`${tick} top-4 right-4 border-t-2 border-r-2`} aria-hidden />
+      <span className={`${tick} bottom-4 left-4 border-b-2 border-l-2`} aria-hidden />
+      <span className={`${tick} bottom-4 right-4 border-b-2 border-r-2`} aria-hidden />
+    </>
+  );
+}
+
 // ── Project card ─────────────────────────────────────────────────────────────
 
-function ProjectCard({ title, desc, tags, year, link, image, mobile }: {
+function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
   title: string; desc: string; tags: string[]; year: string;
-  link: string; image?: string; mobile?: boolean;
+  link: string; image?: string; index: number; mobile?: boolean;
 }) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+  };
+
   return (
     <motion.div
       variants={cardVariant}
+      onMouseMove={handleMouseMove}
       whileHover={{
         y: -7,
         scale: 1.015,
@@ -40,13 +93,23 @@ function ProjectCard({ title, desc, tags, year, link, image, mobile }: {
         transition: { type: "spring", stiffness: 320, damping: 20 },
       }}
       whileTap={{ scale: 0.975, transition: { duration: 0.09 } }}
-      className="bg-[#0D0C0A] border border-black/8 rounded-2xl overflow-hidden cursor-pointer"
+      className="group relative bg-[#0D0C0A] border border-black/8 rounded-2xl overflow-hidden cursor-pointer"
     >
+      {/* Cursor-reactive glow, matches the skill cards on the home page */}
+      <div
+        aria-hidden
+        className="absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+        style={{
+          background:
+            "radial-gradient(220px circle at var(--x, 50%) var(--y, 0%), rgba(255,92,0,0.10), transparent 70%)",
+        }}
+      />
+
       <Link
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group no-underline block h-full"
+        className="group no-underline block h-full relative"
       >
         {image && (
           <div className={`relative w-full overflow-hidden ${mobile ? "h-40" : "h-44"}`}>
@@ -60,9 +123,14 @@ function ProjectCard({ title, desc, tags, year, link, image, mobile }: {
         )}
         <div className="p-5">
           <div className="flex items-start justify-between mb-2">
-            <p className={`font-display font-bold text-white group-hover:text-[#FF5C00] transition-colors duration-150 ${mobile ? "text-[14.5px]" : "text-[14px]"}`}>
-              {title}
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] text-white/25">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className={`font-display font-bold text-white group-hover:text-[#FF5C00] transition-colors duration-150 ${mobile ? "text-[14.5px]" : "text-[14px]"}`}>
+                {title}
+              </p>
+            </div>
             <span className="font-display text-[9px] font-bold uppercase text-white/40 shrink-0 ml-2">{year}</span>
           </div>
           <p className="font-body text-[12.5px] text-white/70 leading-relaxed mb-3">{desc}</p>
@@ -83,61 +151,76 @@ function ProjectCard({ title, desc, tags, year, link, image, mobile }: {
   );
 }
 
+// ── Page header (eyebrow + reveal headline + count) ─────────────────────────
+
+function PageIntro({ mobile }: { mobile?: boolean }) {
+  return (
+    <motion.div
+      className={`relative ${mobile ? "mb-8" : "mb-10"}`}
+      variants={fadeUp} initial="hidden" animate="show"
+    >
+      <HeroGlow className={mobile ? "-top-14 -left-8 w-[240px] h-[240px]" : "-top-16 -left-10 w-[360px] h-[360px]"} />
+      <div className="relative flex items-center gap-3 mb-2">
+        <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#1a1a1a]">
+          Selected Work
+        </p>
+        <span className="font-display text-[10px] font-bold text-[#888880]">
+           projects
+        </span>
+      </div>
+      <h1
+        className={`relative font-display font-extrabold text-[#000000] ${
+          mobile
+            ? "leading-[1.06] tracking-[-0.03em] text-[clamp(28px,8vw,36px)]"
+            : "leading-[1.02] tracking-[-0.04em]"
+        }`}
+        style={!mobile ? { fontSize: "clamp(34px, 3.2vw, 52px)" } : undefined}
+      >
+        <span className="block overflow-hidden pb-[0.15em] -mb-[0.15em]">
+          <motion.span
+            className="block"
+            variants={headlineReveal} initial="hidden" animate="show"
+          >
+            Things I&apos;ve built that <span className="text-[#FF5C00]">actually shipped.</span>
+          </motion.span>
+        </span>
+      </h1>
+    </motion.div>
+  );
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Work() {
   return (
     <CardShell>
+      <GrainOverlay />
+      <CornerTicks />
 
       {/* ════════════  MOBILE  ════════════ */}
       <div className="md:hidden">
-        <motion.div
-          className="mb-8"
-          variants={fadeUp} initial="hidden" animate="show"
-        >
-          <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#1a1a1a] mb-2">
-            Selected Work
-          </p>
-          <h1 className="font-display font-extrabold leading-[1.06] tracking-[-0.03em] text-[#000000] text-[clamp(28px,8vw,36px)]">
-            Things I&apos;ve built that{" "}
-            <span className="text-[#FF5C00]">actually shipped.</span>
-          </h1>
-        </motion.div>
+        <PageIntro mobile />
 
         <motion.div
           className="flex flex-col gap-4 mb-10"
           variants={stagger(0.1)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05 }}
         >
-          {PROJECTS.map(({ title, desc, tags, year, link, image }) => (
-            <ProjectCard key={title} title={title} desc={desc} tags={tags} year={year} link={link} image={image} mobile />
+          {PROJECTS.map(({ title, desc, tags, year, link, image }, i) => (
+            <ProjectCard key={title} title={title} desc={desc} tags={tags} year={year} link={link} image={image} index={i} mobile />
           ))}
         </motion.div>
       </div>
 
       {/* ════════════  DESKTOP  ════════════ */}
       <div className="hidden md:block">
-        <motion.div
-          className="mb-10"
-          variants={fadeUp} initial="hidden" animate="show"
-        >
-          <p className="font-display text-[10px] font-bold tracking-[0.18em] uppercase text-[#1a1a1a] mb-2">
-            Selected Work
-          </p>
-          <h1
-            className="font-display font-extrabold leading-[1.02] tracking-[-0.04em] text-[#000000]"
-            style={{ fontSize: "clamp(34px, 3.2vw, 52px)" }}
-          >
-            Things I&apos;ve built that{" "}
-            <span className="text-[#FF5C00]">actually shipped.</span>
-          </h1>
-        </motion.div>
+        <PageIntro />
 
         <motion.div
           className="grid grid-cols-2 gap-5"
           variants={stagger(0.1)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05 }}
         >
-          {PROJECTS.map(({ title, desc, tags, year, link, image }) => (
-            <ProjectCard key={title} title={title} desc={desc} tags={tags} year={year} link={link} image={image} />
+          {PROJECTS.map(({ title, desc, tags, year, link, image }, i) => (
+            <ProjectCard key={title} title={title} desc={desc} tags={tags} year={year} link={link} image={image} index={i} />
           ))}
         </motion.div>
       </div>
