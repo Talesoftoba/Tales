@@ -84,7 +84,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             <div className="flex-1 flex justify-end">
               <div className="text-right select-none pointer-events-none shrink-0 min-w-0">
                 <p className="font-display text-[12.5px] font-bold tracking-[0.08em] uppercase text-black whitespace-nowrap leading-tight">
-                  Talesoftoba
+                  toba
                 </p>
                 <p className="font-display text-[13px] font-bold tracking-[0.06em] text-[#3a3a3a] whitespace-nowrap leading-tight mt-0.5">
                   © 2026
