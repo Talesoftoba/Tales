@@ -105,23 +105,7 @@ function ViewResumeChip({ mobile }: { mobile?: boolean }) {
   );
 }
 
-function DownloadCVChip({ mobile }: { mobile?: boolean }) {
-  return (
-    <motion.div
-      variants={chipVariant}
-      whileHover={{ scale: 1.07, y: -3, transition: { type: "spring", stiffness: 400, damping: 16 } }}
-      whileTap={{ scale: 0.93, transition: { duration: 0.08 } }}
-    >
-      <a
-        href="/Samuel_Ayoola_CV-fullstack.pdf"
-        download="Samuel_Ayoola_CV-fullstack.pdf"
-        className={chipClass(mobile)}
-      >
-        Download CV
-      </a>
-    </motion.div>
-  );
-}
+
 
 function SkillCard({ category, chips }: { category: string; chips: string[] }) {
   return (
@@ -202,7 +186,7 @@ export default function Home() {
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} mobile />
           ))}
           <ViewResumeChip mobile />
-          <DownloadCVChip mobile />
+        
         </motion.div>
 
         {/* Tech stack marquee */}
@@ -272,7 +256,7 @@ export default function Home() {
             <SocialChip key={label} href={href} icon={icon} label={label} target={target} />
           ))}
           <ViewResumeChip />
-          <DownloadCVChip />
+        
         </motion.div>
 
         {/* Tech stack marquee */}
