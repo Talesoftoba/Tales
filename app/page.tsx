@@ -222,24 +222,25 @@ const LINKS = [
 ];
 
 // Small icon-only circle for a social link — quiet, grouped together
-function SocialIconLink({ href, icon, label, target }: {
-  href: string; icon: React.ReactNode; label: string; target: boolean;
+function SocialIconLink({ href, icon, label, target, mobile }: {
+  href: string; icon: React.ReactNode; label: string; target: boolean; mobile?: boolean;
 }) {
   return (
     <motion.div
       variants={chipVariant}
       whileHover={{ scale: 1.1, y: -2, transition: { type: "spring", stiffness: 400, damping: 16 } }}
       whileTap={{ scale: 0.9, transition: { duration: 0.08 } }}
+      className="shrink-0"
     >
       <Link
         href={href}
         target={target ? "_blank" : undefined}
         rel={target ? "noopener noreferrer" : undefined}
         aria-label={label}
-        className="flex items-center justify-center w-10 h-10 rounded-full
+        className={`flex items-center justify-center rounded-full
           bg-[#F5F0E8] border border-black/[0.14] text-[#000000]
           hover:border-[#FF5C00] hover:text-[#FF5C00] hover:bg-[#FF5C00]/5
-          transition-colors duration-150"
+          transition-colors duration-150 ${mobile ? "w-8 h-8" : "w-10 h-10"}`}
       >
         {icon}
       </Link>
@@ -254,6 +255,7 @@ function ResumeButton({ mobile }: { mobile?: boolean }) {
       variants={chipVariant}
       whileHover={{ scale: 1.03, y: -2, transition: { type: "spring", stiffness: 400, damping: 16 } }}
       whileTap={{ scale: 0.96, transition: { duration: 0.08 } }}
+      className="shrink-0"
     >
       <Link
         href="/Samuel_Ayoola_CV-fullstack.pdf"
@@ -261,8 +263,8 @@ function ResumeButton({ mobile }: { mobile?: boolean }) {
         rel="noopener noreferrer"
         className={`flex items-center gap-2 bg-[#FF5C00] text-white rounded-full
           font-display font-bold tracking-[0.07em] uppercase no-underline
-          hover:bg-[#e65200] transition-colors duration-150
-          ${mobile ? "px-5 py-2 text-[11px]" : "px-6 py-2.5 text-[11px]"}`}
+          hover:bg-[#e65200] transition-colors duration-150 whitespace-nowrap
+          ${mobile ? "px-4 py-2 text-[10.5px]" : "px-6 py-2.5 text-[11px]"}`}
       >
         View resume <ArrowUpRightIcon />
       </Link>
@@ -338,12 +340,6 @@ export default function Home() {
         <motion.section className="mb-6" variants={fadeUp} initial="hidden" animate="show">
           <p className="font-body text-[13.5px] text-[#000000]">{META.role}</p>
           <p className="font-body text-[12px] text-[#1a1a1a] mt-0.5">{META.location} · {META.timezone}</p>
-          <div className="flex items-center gap-2 mt-3">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="font-display text-[10px] font-bold tracking-widest uppercase text-green-600">
-              Available for work
-            </span>
-          </div>
         </motion.section>
 
         <div className="relative">
@@ -382,16 +378,17 @@ export default function Home() {
           performance, scalability, and user experience.
         </motion.p>
 
+        {/* Contact row — icons + resume button forced onto one line, no wrap */}
         <motion.div
-          className="flex items-center gap-3 flex-wrap mb-4"
+          className="flex items-center gap-2 flex-nowrap mb-4 overflow-x-auto"
           variants={stagger(0.06)} initial="hidden" animate="show"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 shrink-0">
             {LINKS.map(({ href, icon, label, target }) => (
-              <SocialIconLink key={label} href={href} icon={icon} label={label} target={target} />
+              <SocialIconLink key={label} href={href} icon={icon} label={label} target={target} mobile />
             ))}
           </div>
-          <span className="w-px h-6 bg-black/10 mx-1" />
+          <span className="w-px h-6 bg-black/10 mx-0.5 shrink-0" />
           <ResumeButton mobile />
         </motion.div>
 
