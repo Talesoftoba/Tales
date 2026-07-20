@@ -60,10 +60,15 @@ export default function BottomNav() {
                 touch-manipulation select-none
                 ${active ? "text-[#FF5C00]" : "text-white/60 active:text-white"}`}
             >
-              {/* Sliding active pill — same layoutId trick as DesktopSidebar's navActive */}
+              {/* Active pill — plain pop-in on mount. No layoutId: since BottomNav
+                  remounts on every navigation (each page has its own CardShell),
+                  there's no persistent element to slide between, and keeping
+                  layoutId here was causing Framer Motion to try (and sometimes
+                  fail) to match a ghost of the previous unmounted element. */}
               {active && (
                 <motion.span
-                  layoutId="bottomNavActive"
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   className="absolute inset-0 rounded-2xl bg-white/10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
@@ -72,7 +77,8 @@ export default function BottomNav() {
               {/* Small active dot above the icon, echoes the sidebar's navDot */}
               {active && (
                 <motion.span
-                  layoutId="bottomNavDot"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   className="absolute -top-0.5 w-1 h-1 rounded-full bg-[#FF5C00]"
                   transition={{ type: "spring", stiffness: 400, damping: 28 }}
                 />
