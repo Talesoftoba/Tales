@@ -1,11 +1,32 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import ContactButton from "./ContactButton";
 import BottomNav from "./BottomNav";
 import DesktopSidebar from "./DesktopSidebar";
 import { META } from "../lib/data";
 import { motion } from "framer-motion";
+
+const PAGE_TITLES: Record<string, string> = {
+  "/": "Home",
+  "/work": "Work",
+  "/craft": "Experience",
+};
+
+// Quiet eyebrow at the top of the right panel — echoes the sidebar's active
+// nav state so the two halves of the desktop layout read as connected rather
+// than the white panel just being a blank slate wherever the sidebar ends.
+function PageLabel() {
+  const pathname = usePathname();
+  const title = PAGE_TITLES[pathname] ?? "";
+  if (!title) return null;
+  return (
+    <p className="font-display text-[9px] font-bold tracking-[0.2em] uppercase text-black/25 mb-6">
+      {title}
+    </p>
+  );
+}
 
 export default function CardShell({ children }: { children: React.ReactNode }) {
   return (
@@ -143,7 +164,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
           >
             {/* LEFT — static sidebar */}
             <motion.div
-              className="h-full rounded-l-[26px] overflow-hidden"
+              className="h-full rounded-l-[26px] rounded-r-[6px] overflow-hidden"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.22, ease: "easeOut" }}
@@ -151,14 +172,32 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
               <DesktopSidebar />
             </motion.div>
 
+            {/* SEAM — gradient spine between the sidebar and the right panel;
+                fades from the sidebar's orange ambient glow into the white panel
+                so the transition reads as a continuation, not a hard cut. */}
+            <div
+              aria-hidden
+              className="w-px h-full relative z-10 shrink-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(255,92,0,0.25), rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.04))",
+              }}
+            />
+
             {/* RIGHT — page content (white background lives here now) */}
             <motion.div
               className="right-panel flex-1 min-w-0 px-10 py-10 bg-white"
-              style={{ overflowY: "auto", overflowX: "hidden", scrollbarWidth: "none" }}
+              style={{
+                overflowY: "auto",
+                overflowX: "hidden",
+                scrollbarWidth: "none",
+                boxShadow: "inset 12px 0 24px -20px rgba(0,0,0,0.35)",
+              }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.45, delay: 0.3, ease: "easeOut" }}
             >
+              <PageLabel />
               {children}
             </motion.div>
           </motion.div>
