@@ -69,6 +69,23 @@ function CornerTicks() {
   );
 }
 
+// Wraps a screenshot in a minimal browser-chrome frame — a thin title bar with
+// three traffic-light dots above the image — so it reads as a product shot
+// rather than a flat crop. The bar shares the card's rounded top corners;
+// the image sits directly below with no gap so the two feel like one frame.
+function BrowserFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative w-full overflow-hidden bg-[#151412]">
+      <div className="flex items-center gap-1.5 px-3 h-[22px] bg-[#1a1917] border-b border-white/[0.06]">
+        <span className="w-2 h-2 rounded-full bg-[#FF5F57]" />
+        <span className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
+        <span className="w-2 h-2 rounded-full bg-[#28C840]" />
+      </div>
+      {children}
+    </div>
+  );
+}
+
 // ── Project card ─────────────────────────────────────────────────────────────
 
 function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
@@ -112,14 +129,16 @@ function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
         className="group no-underline block h-full relative"
       >
         {image && (
-          <div className={`relative w-full overflow-hidden ${mobile ? "h-40" : "h-44"}`}>
-            <motion.div
-              className="w-full h-full"
-              whileHover={{ scale: 1.06, transition: { duration: 0.5, ease: "easeOut" } }}
-            >
-              <Image src={image} alt={title} fill className="object-cover" />
-            </motion.div>
-          </div>
+          <BrowserFrame>
+            <div className={`relative w-full overflow-hidden ${mobile ? "h-[136px]" : "h-[154px]"}`}>
+              <motion.div
+                className="w-full h-full"
+                whileHover={{ scale: 1.06, transition: { duration: 0.5, ease: "easeOut" } }}
+              >
+                <Image src={image} alt={title} fill className="object-cover" />
+              </motion.div>
+            </div>
+          </BrowserFrame>
         )}
         <div className="p-5">
           <div className="flex items-start justify-between mb-2">
