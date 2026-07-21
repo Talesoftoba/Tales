@@ -351,7 +351,7 @@ export default function Home() {
                 className="block"
                 variants={headlineLine} initial="hidden" animate="show"
               >
-                I build fast, design, ship clean —
+                I build fast,
               </motion.span>
             </span>
             <span className={lineWrapClass}>
@@ -360,7 +360,7 @@ export default function Home() {
                 variants={headlineLine} initial="hidden" animate="show"
                 transition={{ delay: 0.1 }}
               >
-                <span className="text-[#FF5C00]">and it performs.</span>
+                ship clean — <span className="text-[#FF5C00]">and it performs.</span>
               </motion.span>
             </span>
           </h1>
@@ -436,7 +436,7 @@ export default function Home() {
                 className="block"
                 variants={headlineLine} initial="hidden" animate="show"
               >
-                I build fast, design,
+                I build fast,
               </motion.span>
             </span>
             <span className={lineWrapClass}>
