@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import CardShell from "../components/CardShell";
 import Link from "next/link";
 import { PROJECTS } from "../lib/data";
 import { motion, type Variants } from "framer-motion";
@@ -212,7 +211,7 @@ function PageIntro({ mobile }: { mobile?: boolean }) {
 
 export default function Work() {
   return (
-    <CardShell>
+    <>
       <GrainOverlay />
       <CornerTicks />
 
@@ -243,7 +242,6 @@ export default function Work() {
           ))}
         </motion.div>
       </div>
-
-    </CardShell>
+    </>
   );
 }

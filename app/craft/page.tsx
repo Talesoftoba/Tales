@@ -1,6 +1,5 @@
 "use client";
 
-import CardShell from "../components/CardShell";
 import { motion, type Variants } from "framer-motion";
 
 // ── Variants ────────────────────────────────────────────────────────────────
@@ -212,7 +211,7 @@ function PageIntro({ mobile }: { mobile?: boolean }) {
 
 export default function Craft() {
   return (
-    <CardShell>
+    <>
       <GrainOverlay />
       <CornerTicks />
 
@@ -244,7 +243,6 @@ export default function Craft() {
         </motion.div>
 
       </div>
-
-    </CardShell>
+    </>
   );
 }

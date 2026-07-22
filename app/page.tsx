@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import CardShell from "./components/CardShell";
 import { IconX, IconMail, IconGithub, IconLinkedin } from "./components/icons";
 import { META } from "./lib/data";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
@@ -330,7 +329,7 @@ function SkillCard({ category, chips, index }: { category: string; chips: string
 
 export default function Home() {
   return (
-    <CardShell>
+    <>
       <GrainOverlay />
       <CornerTicks />
 
@@ -503,6 +502,6 @@ export default function Home() {
         </motion.section>
 
       </div>
-    </CardShell>
+    </>
   );
 }

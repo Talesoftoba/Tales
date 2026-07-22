@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans } from "next/font/google";
+import CardShell from "./components/CardShell";
+import PageTransition from "./components/PageTransition";
 import "./globals.css";
 
 const syne = Syne({
@@ -23,7 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${syne.variable} ${dm.variable}`}>
       <body style={{ background: "#1C1A14", margin: 0, padding: 0 }}>
-        {children}
+        <CardShell>
+          <PageTransition>{children}</PageTransition>
+        </CardShell>
       </body>
     </html>
   );
