@@ -28,6 +28,21 @@ function PageLabel() {
   );
 }
 
+// Signature frame — bracket ticks in each corner of the card. Lives here
+// (outside {children}/PageTransition) so it stays perfectly static across
+// route navigations instead of animating along with the page content.
+function CornerTicks() {
+  const tick = "absolute w-3 h-3 border-[#FF5C00]/40 pointer-events-none z-10";
+  return (
+    <>
+      <span className={`${tick} top-4 left-4 border-t-2 border-l-2`} aria-hidden />
+      <span className={`${tick} top-4 right-4 border-t-2 border-r-2`} aria-hidden />
+      <span className={`${tick} bottom-4 left-4 border-b-2 border-l-2`} aria-hidden />
+      <span className={`${tick} bottom-4 right-4 border-b-2 border-r-2`} aria-hidden />
+    </>
+  );
+}
+
 export default function CardShell({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -116,12 +131,13 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
 
           {/* White card */}
           <motion.div
-            className="card-glow flex-1 min-h-0 w-full bg-white rounded-[26px]"
+            className="card-glow relative flex-1 min-h-0 w-full bg-white rounded-[26px]"
             style={{ overflow: "hidden" }}
             initial={{ opacity: 0, y: 28, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           >
+            <CornerTicks />
             <div
               id="card"
               style={{
@@ -156,12 +172,13 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         >
           {/* Card shell — dark background so it blends with the sidebar's corners; right panel carries its own white bg */}
           <motion.div
-            className="card-glow flex-1 min-h-0 w-full rounded-[26px] flex overflow-hidden"
+            className="card-glow relative flex-1 min-h-0 w-full rounded-[26px] flex overflow-hidden"
             style={{ background: "rgba(10, 10, 11, 0.92)" }}
             initial={{ opacity: 0, y: 32, scale: 0.975 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
+            <CornerTicks />
             {/* LEFT — static sidebar */}
             <motion.div
               className="h-full rounded-l-[26px] rounded-r-[6px] overflow-hidden"
@@ -172,15 +189,16 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
               <DesktopSidebar />
             </motion.div>
 
-            {/* SEAM — gradient spine between the sidebar and the right panel;
-                fades from the sidebar's orange ambient glow into the white panel
-                so the transition reads as a continuation, not a hard cut. */}
+            {/* SEAM — barely-there gradient line between the sidebar and the right
+                panel. Most of the "soft transition" feel now comes from the inset
+                shadow on the right panel and the rounded inner sidebar corner below;
+                this line just needs to not read as a hard edge. */}
             <div
               aria-hidden
               className="w-px h-full relative z-10 shrink-0"
               style={{
                 background:
-                  "linear-gradient(to bottom, rgba(255,92,0,0.25), rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.04))",
+                  "linear-gradient(to bottom, rgba(255,92,0,0.05), rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.02))",
               }}
             />
 

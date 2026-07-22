@@ -84,18 +84,6 @@ function HeroGlow({ className = "" }: { className?: string }) {
   );
 }
 
-function CornerTicks() {
-  const tick = "absolute w-3 h-3 border-[#FF5C00]/40 pointer-events-none z-10";
-  return (
-    <>
-      <span className={`${tick} top-4 left-4 border-t-2 border-l-2`} aria-hidden />
-      <span className={`${tick} top-4 right-4 border-t-2 border-r-2`} aria-hidden />
-      <span className={`${tick} bottom-4 left-4 border-b-2 border-l-2`} aria-hidden />
-      <span className={`${tick} bottom-4 right-4 border-b-2 border-r-2`} aria-hidden />
-    </>
-  );
-}
-
 // ── Experience card ──────────────────────────────────────────────────────────
 
 function ExperienceCard({ role, company, type, period, bullets, index, mobile }: {
@@ -213,7 +201,6 @@ export default function Craft() {
   return (
     <>
       <GrainOverlay />
-      <CornerTicks />
 
       {/* ════════════  MOBILE  ════════════ */}
       <div className="md:hidden">

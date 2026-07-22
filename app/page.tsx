@@ -123,19 +123,6 @@ function HeroGlow({ className = "" }: { className?: string }) {
   );
 }
 
-// Signature frame — bracket ticks in each corner of the whole card
-function CornerTicks() {
-  const tick = "absolute w-3 h-3 border-[#FF5C00]/40 pointer-events-none z-10";
-  return (
-    <>
-      <span className={`${tick} top-4 left-4 border-t-2 border-l-2`} aria-hidden />
-      <span className={`${tick} top-4 right-4 border-t-2 border-r-2`} aria-hidden />
-      <span className={`${tick} bottom-4 left-4 border-b-2 border-l-2`} aria-hidden />
-      <span className={`${tick} bottom-4 right-4 border-b-2 border-r-2`} aria-hidden />
-    </>
-  );
-}
-
 // Cycles through short role fragments inside the about paragraph
 function RotatingRole() {
   const [i, setI] = useState(0);
@@ -331,7 +318,6 @@ export default function Home() {
   return (
     <>
       <GrainOverlay />
-      <CornerTicks />
 
       {/* ════════════  MOBILE  ════════════ */}
       <div className="md:hidden">
