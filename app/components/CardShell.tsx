@@ -141,6 +141,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             <div
               id="card"
               style={{
+                position: "relative",
                 height: "100%",
                 overflowY: "auto",
                 overflowX: "hidden",
@@ -206,6 +207,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
             <motion.div
               className="right-panel flex-1 min-w-0 px-10 py-10 bg-white"
               style={{
+                position: "relative",
                 overflowY: "auto",
                 overflowX: "hidden",
                 scrollbarWidth: "none",
