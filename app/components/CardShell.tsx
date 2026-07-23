@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import ContactButton from "./ContactButton";
 import BottomNav from "./BottomNav";
@@ -13,6 +14,30 @@ const PAGE_TITLES: Record<string, string> = {
   "/work": "Work",
   "/craft": "Experience",
 };
+
+// Locks the mobile shell's height to the viewport height measured once on
+// first load, instead of tracking `100dvh` live. `dvh` recalculates whenever
+// the mobile browser's address bar hides/shows — and navigating between
+// pages (even without the user scrolling) can trigger Chrome to auto-hide
+// its address bar, which grows the visual viewport and makes every element
+// sized off `100dvh` resize/reposition all at once. That resize is what
+// reads as the whole card + bottom nav "jumping" during route transitions.
+// Measuring once via window.innerHeight on mount and reusing that fixed
+// pixel value sidesteps the live recalculation entirely.
+function useStableViewportHeight() {
+  const [height, setHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const measure = () => setHeight(window.innerHeight);
+    measure();
+    // Still update on real resizes (e.g. orientation change), just not on
+    // every address-bar show/hide triggered by navigation/scroll.
+    window.addEventListener("orientationchange", measure);
+    return () => window.removeEventListener("orientationchange", measure);
+  }, []);
+
+  return height;
+}
 
 // Quiet eyebrow at the top of the right panel — echoes the sidebar's active
 // nav state so the two halves of the desktop layout read as connected rather
@@ -44,6 +69,7 @@ function CornerTicks() {
 }
 
 export default function CardShell({ children }: { children: React.ReactNode }) {
+  const viewportHeight = useStableViewportHeight();
   return (
     <>
       <style>{`
@@ -74,7 +100,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         {/* ══════════════  MOBILE  ══════════════ */}
         <div
           className="md:hidden relative z-10 w-[96vw] max-w-130 flex flex-col pt-4 pb-4"
-          style={{ height: "100dvh" }}
+          style={{ height: viewportHeight ? `${viewportHeight}px` : "100dvh" }}
         >
           {/* Top bar */}
           <motion.div
@@ -169,7 +195,7 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
         {/* ══════════════  DESKTOP  ══════════════ */}
         <div
           className="hidden md:flex relative z-10 flex-col"
-          style={{ width: "92vw", height: "100dvh", paddingTop: "2rem", paddingBottom: "2rem" }}
+          style={{ width: "92vw", height: viewportHeight ? `${viewportHeight}px` : "100dvh", paddingTop: "2rem", paddingBottom: "2rem" }}
         >
           {/* Card shell — dark background so it blends with the sidebar's corners; right panel carries its own white bg */}
           <motion.div
