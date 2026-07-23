@@ -11,14 +11,22 @@ const NAV = [
   { label: "Experience", href: "/craft", icon: IconPen       },
 ];
 
+// NOTE: BottomNav currently remounts on every route change because each page
+// renders its own <CardShell>. A fresh mount with an entrance animation
+// (items sliding up from y:12 with a delay) is exactly what reads as the nav
+// "jumping" on navigation — so the entrance animation has been removed here.
+// The real fix is to hoist <CardShell> (and therefore this nav) into a shared
+// app/layout.tsx so it persists across routes instead of remounting; once
+// that's done, the entrance animation below can be safely restored since it
+// would then only play once, on first load.
 const navVariants: Variants = {
   hidden: {},
-  show:   { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
+  show:   { transition: { staggerChildren: 0 } },
 };
 
 const itemVariant: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 280, damping: 22 } },
+  hidden: { opacity: 1, y: 0 },
+  show:   { opacity: 1, y: 0 },
 };
 
 export default function BottomNav() {
@@ -55,6 +63,7 @@ export default function BottomNav() {
             <Link
               href={href}
               prefetch
+              scroll={false}
               className={`relative flex flex-col items-center gap-1.5 px-5 py-2 rounded-2xl font-display text-[10px]
                 font-extrabold tracking-[0.12em] uppercase no-underline transition-colors duration-150
                 touch-manipulation select-none
