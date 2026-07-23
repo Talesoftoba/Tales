@@ -5,7 +5,33 @@ import Link from "next/link";
 import { IconX, IconMail, IconGithub, IconLinkedin } from "./components/icons";
 import { META } from "./lib/data";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import TechStackMarquee from "./components/TechStackMarquee";
+import type { IconType } from "react-icons";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiNodedotjs,
+  SiExpress,
+  SiNestjs,
+  SiSharp,
+  SiFirebase,
+  SiGraphql,
+  SiPostgresql,
+  SiSupabase,
+  SiPrisma,
+  SiStripe,
+  SiJsonwebtokens,
+  SiOpenai,
+  SiTailwindcss,
+  SiFramer,
+  SiCss3,
+  SiHtml5,
+  SiGit,
+  SiGithubactions,
+  SiVercel,
+} from "react-icons/si";
+import { TbApi, TbWebhook, TbLock, TbBroadcast, TbDatabase, TbCreditCard } from "react-icons/tb";
 
 // ── Variants ────────────────────────────────────────────────────────────────
 
@@ -24,6 +50,18 @@ const chipVariant: Variants = {
   show:   { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 300, damping: 22 } },
 };
 
+// Chip container fades/rises in; its icon then pops in with a spring a beat
+// later, giving the sense that "the tech itself" arrives after the pill.
+const chipContainerVariant: Variants = {
+  hidden: { opacity: 0, y: 16, scale: 0.9 },
+  show:   { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const chipIconVariant: Variants = {
+  hidden: { opacity: 0, scale: 0, rotate: -90 },
+  show:   { opacity: 1, scale: 1.15, rotate: 0, transition: { type: "spring", stiffness: 260, damping: 12, delay: 0.15 } },
+};
+
 const skillCardVariant: Variants = {
   hidden: { opacity: 0, y: 16 },
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 24 } },
@@ -40,24 +78,90 @@ const headlineLine: Variants = {
 const lineWrapClass = "block overflow-hidden pb-[0.15em] -mb-[0.15em]";
 
 // ── Skills data ──────────────────────────────────────────────────────────────
+// Each chip pairs a label with its official brand icon (react-icons/si — Simple
+// Icons). A handful of items aren't real products with logos (e.g. "REST &
+// GraphQL APIs" as a combined phrase, "Webhook handling", "RBAC") — those use a
+// neutral outline icon from Tabler Icons instead so nothing is left blank.
 
-const SKILLS = [
-  { category: "Frontend",  chips: ["React.js", "Next.js (v14/15)", "TypeScript", "JavaScript", "ES2022+"] },
-  { category: "Backend",   chips: ["Node.js", "Express.js", "NestJS", "C#", "Firebase", "REST & GraphQL APIs"] },
-  { category: "Database",  chips: ["PostgreSQL", "Supabase", "Firestore", "Prisma ORM"] },
-  { category: "Payments",  chips: ["Paystack", "Stripe", "Webhook handling", "Transaction reconciliation"] },
-  { category: "Auth",      chips: ["NextAuth v4", "JWT", "OAuth 2.0", "RBAC"] },
-  { category: "AI / RT",   chips: ["AI chat integration", "SSE", "Real-time data pipelines"] },
-  { category: "Styling",   chips: ["Tailwind CSS", "Framer Motion", "CSS3", "HTML5"] },
-  { category: "DevOps",    chips: ["Git", "GitHub Actions", "Vercel CI/CD"] },
+type Chip = { label: string; icon: IconType; color?: string };
+
+const SKILLS: { category: string; chips: Chip[] }[] = [
+  {
+    category: "Frontend",
+    chips: [
+      { label: "React.js", icon: SiReact, color: "#61DAFB" },
+      { label: "Next.js (v14/15)", icon: SiNextdotjs, color: "#FFFFFF" },
+      { label: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { label: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+      { label: "ES2022+", icon: SiJavascript, color: "#F7DF1E" },
+    ],
+  },
+  {
+    category: "Backend",
+    chips: [
+      { label: "Node.js", icon: SiNodedotjs, color: "#5FA04E" },
+      { label: "Express.js", icon: SiExpress, color: "#FFFFFF" },
+      { label: "NestJS", icon: SiNestjs, color: "#E0234E" },
+      { label: "C#", icon: SiSharp, color: "#68217A" },
+      { label: "Firebase", icon: SiFirebase, color: "#FFCA28" },
+      { label: "REST & GraphQL APIs", icon: SiGraphql, color: "#E10098" },
+    ],
+  },
+  {
+    category: "Database",
+    chips: [
+      { label: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+      { label: "Supabase", icon: SiSupabase, color: "#3ECF8E" },
+      { label: "Firestore", icon: SiFirebase, color: "#FFCA28" },
+      { label: "Prisma ORM", icon: SiPrisma, color: "#FFFFFF" },
+    ],
+  },
+  {
+    category: "Payments",
+    chips: [
+      { label: "Paystack", icon: TbCreditCard, color: "#00C3F7" },
+      { label: "Stripe", icon: SiStripe, color: "#635BFF" },
+      { label: "Webhook handling", icon: TbWebhook, color: "#FF5C00" },
+      { label: "Transaction reconciliation", icon: TbDatabase, color: "#FF5C00" },
+    ],
+  },
+  {
+    category: "Auth",
+    chips: [
+      { label: "NextAuth v4", icon: SiNextdotjs, color: "#FFFFFF" },
+      { label: "JWT", icon: SiJsonwebtokens, color: "#FB015B" },
+      { label: "OAuth 2.0", icon: TbLock, color: "#FF5C00" },
+      { label: "RBAC", icon: TbLock, color: "#FF5C00" },
+    ],
+  },
+  {
+    category: "AI / RT",
+    chips: [
+      { label: "AI chat integration", icon: SiOpenai, color: "#FFFFFF" },
+      { label: "SSE", icon: TbBroadcast, color: "#FF5C00" },
+      { label: "Real-time data pipelines", icon: TbApi, color: "#FF5C00" },
+    ],
+  },
+  {
+    category: "Styling",
+    chips: [
+      { label: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+      { label: "Framer Motion", icon: SiFramer, color: "#FFFFFF" },
+      { label: "CSS3", icon: SiCss3, color: "#1572B6" },
+      { label: "HTML5", icon: SiHtml5, color: "#E34F26" },
+    ],
+  },
+  {
+    category: "DevOps",
+    chips: [
+      { label: "Git", icon: SiGit, color: "#F05032" },
+      { label: "GitHub Actions", icon: SiGithubactions, color: "#2088FF" },
+      { label: "Vercel CI/CD", icon: SiVercel, color: "#FFFFFF" },
+    ],
+  },
 ];
 
 const ROTATING_ROLES = ["scalable APIs", "clean UIs", "payment systems", "real-time features"];
-
-// Background color for the tech stack panel — matches the dark skill-card
-// tone (#0D0C0A) so the two "data" sections read as a matched pair. The
-// marquee fade gradient below uses this same value so its edges don't show a seam.
-const TECH_PANEL_BG = "#0D0C0A";
 
 // ── Small inline icons (no external icon font dependency) ──────────────────
 
@@ -148,35 +252,6 @@ function RotatingRole() {
   );
 }
 
-// Fades the left/right edges of the tech stack marquee into its panel background
-function FadedMarquee({ bg }: { bg: string }) {
-  return (
-    <div className="relative">
-      <div
-        className="absolute inset-y-0 left-0 w-16 z-10 pointer-events-none"
-        style={{ background: `linear-gradient(to right, ${bg}, transparent)` }}
-      />
-      <div
-        className="absolute inset-y-0 right-0 w-16 z-10 pointer-events-none"
-        style={{ background: `linear-gradient(to left, ${bg}, transparent)` }}
-      />
-      <TechStackMarquee />
-    </div>
-  );
-}
-
-// Frames the marquee as its own panel/strip rather than floating on the page
-function TechStackPanel() {
-  return (
-    <div
-      className="relative rounded-2xl border border-white/[0.07] py-5"
-      style={{ backgroundColor: TECH_PANEL_BG }}
-    >
-      <FadedMarquee bg={TECH_PANEL_BG} />
-    </div>
-  );
-}
-
 // Nudges the visitor to scroll — sits under the contact row
 function ScrollCue() {
   return (
@@ -260,7 +335,9 @@ function ResumeButton({ mobile }: { mobile?: boolean }) {
 
 // Skill card with a cursor-reactive orange glow on hover, plus an index number
 // so a long list of 8 identical cards still gives the reader a sense of place.
-function SkillCard({ category, chips, index }: { category: string; chips: string[]; index: number }) {
+// Chips now render their tech's official brand icon (react-icons/si) alongside
+// the label instead of plain text-only pills.
+function SkillCard({ category, chips, index }: { category: string; chips: Chip[]; index: number }) {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
@@ -296,18 +373,43 @@ function SkillCard({ category, chips, index }: { category: string; chips: string
         </div>
         <span className="w-1.5 h-1.5 rounded-full bg-[#FF5C00]/50" />
       </div>
-      {/* Chips */}
-      <div className="relative px-5 py-4 flex flex-wrap gap-2">
-        {chips.map((chip) => (
-          <span
-            key={chip}
-            className="font-body text-[11.5px] text-white/70 bg-white/[0.05]
-              border border-white/[0.08] px-3 py-1 rounded-lg leading-none"
-          >
-            {chip}
-          </span>
-        ))}
-      </div>
+      {/* Chips — icon + label, staggered pop-in with per-chip hover glow */}
+      <motion.div
+        className="relative px-5 py-4 flex flex-wrap gap-2"
+        variants={stagger(0.09)}
+        initial="hidden"
+        animate="show"
+      >
+        {chips.map(({ label, icon: Icon, color }) => {
+          const glow = color ?? "#FF5C00";
+          return (
+            <motion.span
+              key={label}
+              variants={chipContainerVariant}
+              whileHover={{
+                y: -3,
+                scale: 1.06,
+                borderColor: `${glow}88`,
+                boxShadow: `0 6px 18px ${glow}44`,
+                transition: { type: "spring", stiffness: 400, damping: 18 },
+              }}
+              className="flex items-center gap-1.5 font-body text-[11.5px] text-white/70 bg-white/[0.05]
+                border border-white/[0.08] px-3 py-1 rounded-lg leading-none cursor-default"
+            >
+              <motion.span
+                variants={chipIconVariant}
+                animate={{ scale: 1 }}
+                transition={{ scale: { delay: 0.4, duration: 0.15 } }}
+                className="flex items-center"
+                whileHover={{ rotate: [0, -12, 12, 0], scale: 1.25, transition: { duration: 0.45 } }}
+              >
+                <Icon size={13} color={glow} />
+              </motion.span>
+              {label}
+            </motion.span>
+          );
+        })}
+      </motion.div>
     </motion.div>
   );
 }
@@ -379,21 +481,15 @@ export default function Home() {
 
         <ScrollCue />
 
-        {/* Tech stack marquee */}
-        <motion.section
-          className="mb-12"
-          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-        >
-          <SectionHeader label="Tech Stack" meta="always learning" />
-          <TechStackPanel />
-        </motion.section>
-
         {/* Core Skills — animate on mount, not scroll, so all 8 cards are visible */}
         <motion.section
           className="mb-6"
           variants={fadeUp} initial="hidden" animate="show"
         >
           <SectionHeader label="Core Skills" meta={`${SKILLS.length} areas`} />
+          <p className="font-body text-[12px] text-[#888880] -mt-3 mb-4">
+            The tools and technologies I reach for daily.
+          </p>
           <motion.div
             className="grid grid-cols-1 gap-2.5"
             variants={stagger(0.07)} initial="hidden" animate="show"
@@ -463,20 +559,14 @@ export default function Home() {
 
         <ScrollCue />
 
-        {/* Tech stack marquee */}
-        <motion.section
-          className="mb-14"
-          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}
-        >
-          <SectionHeader label="Tech Stack" meta="always learning" />
-          <TechStackPanel />
-        </motion.section>
-
         {/* Core Skills */}
         <motion.section
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0 }}
         >
           <SectionHeader label="Core Skills" meta={`${SKILLS.length} areas`} />
+          <p className="font-body text-[13px] text-[#888880] -mt-3 mb-5">
+            The tools and technologies I reach for daily.
+          </p>
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 gap-2.5"
             variants={stagger(0.07)} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0 }}
