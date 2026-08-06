@@ -116,12 +116,16 @@ export default function CardShell({ children }: { children: React.ReactNode }) {
                   className="w-11 h-11 rounded-xl overflow-hidden relative"
                   style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.25), 0 0 0 2px rgba(255,255,255,0.08)" }}
                 >
+                  {/* priority: this avatar is above-the-fold and gets flagged as the
+                      page's LCP element — without priority it's lazy-loaded, which
+                      delays the largest visible element on first paint. */}
                   <Image
                     src="/avatar2.jpg"
                     alt="Avatar"
                     quality={100}
                     fill
                     sizes="44px"
+                    priority
                     className="object-cover"
                   />
                 </div>

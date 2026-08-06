@@ -113,11 +113,17 @@ function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
                 className="relative w-full h-full"
                 whileHover={{ scale: 1.06, transition: { duration: 0.5, ease: "easeOut" } }}
               >
+                {/* priority only on the first card: it's the largest image on
+                    this page's first paint (LCP candidate). The rest stay
+                    lazy — giving every image priority defeats the point,
+                    since it tells the browser to fetch everything at once
+                    instead of prioritizing what's actually visible first. */}
                 <Image
                   src={image}
                   alt={title}
                   fill
                   sizes="(max-width: 768px) 96vw, 45vw"
+                  priority={index === 0}
                   className="object-cover"
                 />
               </motion.div>

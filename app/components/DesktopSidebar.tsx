@@ -73,7 +73,10 @@ export default function DesktopSidebar() {
           >
             <div className="rounded-2xl overflow-hidden relative"
               style={{ width: 52, height: 52, boxShadow: "0 4px 16px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08)" }}>
-              <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="52px" className="object-cover" />
+              {/* priority: on desktop this avatar is the largest above-the-fold
+                  image, so it gets flagged as LCP — same fix as the mobile
+                  avatar in CardShell. */}
+              <Image src="/avatar2.jpg" alt="Avatar" quality={100} fill sizes="52px" priority className="object-cover" />
             </div>
             {/* Presence dot — replaces the separate "available for work" pill */}
             <span
