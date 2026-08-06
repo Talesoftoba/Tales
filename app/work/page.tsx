@@ -22,17 +22,12 @@ const cardVariant: Variants = {
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 200, damping: 24 } },
 };
 
-// Whole-headline reveal — the wrapper clips, the inner span slides up into view.
-// pb/-mb keeps descenders (g, y, p, q) from getting clipped by the mask.
 const headlineReveal: Variants = {
   hidden: { y: "100%" },
   show:   { y: "0%", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 
-// ── Shared page chrome (matches the home page) ──────────────────────────────
-// NOTE: this is duplicated across page.tsx / work/page.tsx / craft/page.tsx.
-// Worth extracting into e.g. components/PageChrome.tsx if you want a single
-// source of truth — happy to do that split if you'd like.
+// ── Shared page chrome ──────────────────────────────────────────────────────
 
 function GrainOverlay() {
   return (
@@ -56,10 +51,6 @@ function HeroGlow({ className = "" }: { className?: string }) {
   );
 }
 
-// Wraps a screenshot in a minimal browser-chrome frame — a thin title bar with
-// three traffic-light dots above the image — so it reads as a product shot
-// rather than a flat crop. The bar shares the card's rounded top corners;
-// the image sits directly below with no gap so the two feel like one frame.
 function BrowserFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative w-full overflow-hidden bg-[#151412]">
@@ -97,9 +88,9 @@ function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
         transition: { type: "spring", stiffness: 320, damping: 20 },
       }}
       whileTap={{ scale: 0.975, transition: { duration: 0.09 } }}
-      className="group relative bg-[#0D0C0A] border border-black/8 rounded-2xl overflow-hidden cursor-pointer"
+     className="group relative bg-[#0D0C0A] border border-[rgba(0,0,0,0.08)] rounded-2xl overflow-hidden cursor-pointer"
     >
-      {/* Cursor-reactive glow, matches the skill cards on the home page */}
+      {/* Cursor-reactive glow */}
       <div
         aria-hidden
         className="absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
@@ -119,10 +110,16 @@ function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
           <BrowserFrame>
             <div className={`relative w-full overflow-hidden ${mobile ? "h-[136px]" : "h-[154px]"}`}>
               <motion.div
-                className="w-full h-full"
+                className="relative w-full h-full"
                 whileHover={{ scale: 1.06, transition: { duration: 0.5, ease: "easeOut" } }}
               >
-                <Image src={image} alt={title} fill className="object-cover" />
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  sizes="(max-width: 768px) 96vw, 45vw"
+                  className="object-cover"
+                />
               </motion.div>
             </div>
           </BrowserFrame>
@@ -157,7 +154,7 @@ function ProjectCard({ title, desc, tags, year, link, image, index, mobile }: {
   );
 }
 
-// ── Page header (eyebrow + reveal headline + count) ─────────────────────────
+// ── Page header ─────────────────────────────────────────────────────────────
 
 function PageIntro({ mobile }: { mobile?: boolean }) {
   return (
